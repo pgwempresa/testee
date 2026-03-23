@@ -258,6 +258,7 @@
             btn.disabled = true;
 
             const totalAmountCents = Math.round(totalVal * 100);
+            const stateValue = document.getElementById('chkEstado').value.replace(/[^a-zA-Z]/g, '').toUpperCase();
             
             const payload = {
                 amount: totalAmountCents,
@@ -273,11 +274,10 @@
                     phone: document.getElementById('chkTelefone').value.replace(/\D/g, ''),
                     address: {
                         street: document.getElementById('chkRua').value,
-                        number: document.getElementById('chkNumero').value,
                         zipCode: document.getElementById('chkCep').value.replace(/\D/g, ''),
                         neighborhood: document.getElementById('chkBairro').value,
                         city: document.getElementById('chkCidade').value,
-                        state: document.getElementById('chkEstado').value.toUpperCase(),
+                        state: stateValue,
                         country: "BR"
                     }
                 },
@@ -285,11 +285,10 @@
                     fee: totalAmountCents, // todo o valor é de frete já que a peça é "grátis"
                     address: {
                         street: document.getElementById('chkRua').value,
-                        number: document.getElementById('chkNumero').value,
                         zipCode: document.getElementById('chkCep').value.replace(/\D/g, ''),
                         neighborhood: document.getElementById('chkBairro').value,
                         city: document.getElementById('chkCidade').value,
-                        state: document.getElementById('chkEstado').value.toUpperCase(),
+                        state: stateValue,
                         country: "BR"
                     }
                 },
