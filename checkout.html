@@ -196,9 +196,6 @@
 
     </form>
 
-    <!-- Removido Modal de Erro do Cartão de Crédito -->
-
-
     <script src="produtos.js"></script>
     <script>
         // 1. Carregar Dados Dinâmicos do Produto
@@ -241,8 +238,7 @@
                 atualizarValores();
             });
         });
-
-        // 3. Atualizar e exibir parcelas
+        // 3. Atualizar e exibir totais do Frete
         function atualizarValores() {
             let totalExib = totalVal.toFixed(2).replace('.', ',');
             const elVisual = document.getElementById('valorFreteVisual');
@@ -250,16 +246,6 @@
             
             const elFinal = document.getElementById('valorTotalFinal');
             if(elFinal) elFinal.innerText = "R$ " + totalExib;
-            
-            // Popula select das parcelas se existir na tela (foi removido do HTML)
-            const sel = document.getElementById('selectParcelas');
-            if(sel) {
-                sel.innerHTML = `
-                    <option value="1">1x de R$ ${totalExib} sem juros</option>
-                    <option value="2">2x de R$ ${(totalVal/2).toFixed(2).replace('.', ',')} sem juros</option>
-                    <option value="3">3x de R$ ${(totalVal/3).toFixed(2).replace('.', ',')} sem juros</option>
-                `;
-            }
         }
         atualizarValores();
 
