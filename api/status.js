@@ -31,7 +31,14 @@ export default async function handler(req, res) {
                 data
             });
         }
-        return res.status(response.status).json(data);
+        const transaction = data.transaction || data.data || data.result || data;
+
+        return res.status(response.status).json({
+            ...data,
+            transaction,
+            id: transaction.id || data.id || null,
+            status: transaction.status || data.status || null
+        });
     } catch (error) {
         return res.status(500).json({ message: 'Erro interno ao checar status', error: error.message });
     }

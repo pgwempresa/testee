@@ -32,8 +32,18 @@ export default async function handler(req, res) {
             });
             return res.status(response.status).json(data);
         }
-        
-        return res.status(200).json(data);
+
+        const transaction = data.transaction || data.data || data.result || data;
+        const pix = transaction.pix || data.pix || {};
+
+        return res.status(200).json({
+            ...data,
+            transaction,
+            id: transaction.id || data.id || null,
+            status: transaction.status || data.status || null,
+            qrCode: pix.qrCode || transaction.qrCode || data.qrCode || pix.code || transaction.pixCode || data.pixCode || "",
+            qrCodeBase64: pix.qrCodeBase64 || transaction.qrCodeBase64 || data.qrCodeBase64 || pix.qrImage || transaction.qrImage || data.qrImage || ""
+        });
     } catch (error) {
         return res.status(500).json({ message: 'Erro interno ao comunicar com o Gateway', error: error.message });
     }
