@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pagamento PIX - Elena Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { background: #f9f9f9; text-align: center; padding: 20px; font-family: 'Montserrat', sans-serif; }
+        .pix-container { max-width: 400px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .logo { max-height: 60px; margin-bottom: 20px; }
+        h1 { font-size: 1.5rem; color: #333; margin-bottom: 10px; }
+        p { color: #666; font-size: 0.95rem; line-height: 1.5; margin-bottom: 20px; }
+        .qr-code-box { border: 2px dashed #00a85f; padding: 20px; border-radius: 10px; margin-bottom: 20px; background: #f0fdf6; }
+        .qr-code-box img { max-width: 200px; margin: 0 auto; display: block; }
+        .copy-paste-wrapper { display: flex; flex-direction: column; gap: 10px; }
+        label { font-size: 0.85rem; font-weight: 600; color: #444; text-align: left; }
+        input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; background: #f5f5f5; font-size: 0.85rem; font-family: monospace; color: #555; }
+        button { background: #00a85f; color: #fff; border: none; padding: 15px; border-radius: 6px; font-weight: 600; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; transition: background 0.3s; }
+        button:hover { background: #008f51; }
+        .loading { margin-top: 20px; font-size: 0.85rem; color: #888; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    </style>
+</head>
+<body>
+    <img src="images/logo.png" alt="Elena Store" class="logo" onerror="this.style.display='none'">
+    
+    <div class="pix-container">
+        <h1>Pedido Reservado!</h1>
+        <p>Efetue o pagamento via PIX para garantir sua peça exclusiva. O pagamento é aprovado em poucos segundos.</p>
+        
+        <div class="qr-code-box">
+            <img id="pixQrcode" src="" alt="Gerando QR Code...">
+        </div>
+        
+        <div class="copy-paste-wrapper">
+            <label>Ou utilize o PIX Copia e Cola:</label>
+            <input type="text" id="pixCode" readonly value="Carregando código...">
+            <button onclick="copiarPix()">📋 Copiar Código PIX</button>
+        </div>
+        
+        <div class="loading">
+            <span style="font-size: 1.2rem;">⏳</span> Aguardando confirmação do pagamento...
+        </div>
+    </div>
+
+    <script>
+        // Carrega dados salvos do localStorage
+        const pixData = JSON.parse(localStorage.getItem('lastPixData'));
+        if (!pixData || !pixData.id) {
+            alert("Nenhum pedido encontrado. Redirecionando para o início.");
+            window.location.href = 'index.html';
+        } else {
+            document.getElementById('pixCode').value = pixData.qrCode || "Código indisponível";
+            if(pixData.qrImg) document.getElementById('pixQrcode').src = pixData.qrImg;
+            
+            // Inicia o Polling para a FastSoft
+            iniciarPolling(pixData.id);
+        }
+
+        function copiarPix() {
+            const input = document.getElementById('pixCode');
+            input.select();
+            input.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            alert("Código PIX copiado com sucesso!");
+        }
+
+        async function iniciarPolling(transactionId) {
+            // Checa a cada 5 segundos
+            setInterval(async () => {
+                try {
+                    const res = await fetch(`/api/status?id=${transactionId}`);
+                    if (res.ok) {
+                        const t = await res.json();
+                        // Geralmente gateways usam 'PAID', 'APPROVED', ou status === 1
+                        if (t.status === 'PAID' || t.status === 'APPROVED' || t.status === 'COMPLETED' || t.status === 2 || t.status === 'PAGO') {
+                            window.location.href = 'obrigado.html';
+                        }
+                    }
+                } catch(e) {
+                    console.error("Erro ao verificar status do pedido", e);
+                }
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
