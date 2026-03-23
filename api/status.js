@@ -32,12 +32,37 @@ export default async function handler(req, res) {
             });
         }
         const transaction = data.transaction || data.data || data.result || data;
+        const pix = transaction.pix || data.pix || {};
+        const qrCode =
+            pix.qrCode ||
+            transaction.qrCode ||
+            data.qrCode ||
+            pix.code ||
+            transaction.pixCode ||
+            data.pixCode ||
+            pix.copyPaste ||
+            transaction.copyPaste ||
+            data.copyPaste ||
+            "";
+        const qrCodeBase64 =
+            pix.qrCodeBase64 ||
+            transaction.qrCodeBase64 ||
+            data.qrCodeBase64 ||
+            pix.qrImage ||
+            transaction.qrImage ||
+            data.qrImage ||
+            pix.encodedImage ||
+            transaction.encodedImage ||
+            data.encodedImage ||
+            "";
 
         return res.status(response.status).json({
             ...data,
             transaction,
             id: transaction.id || data.id || null,
-            status: transaction.status || data.status || null
+            status: transaction.status || data.status || null,
+            qrCode,
+            qrCodeBase64
         });
     } catch (error) {
         return res.status(500).json({ message: 'Erro interno ao checar status', error: error.message });
