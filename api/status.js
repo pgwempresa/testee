@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     const { id } = req.query;
     if (!id) return res.status(400).json({ message: 'Transaction ID is required' });
 
-    const sk = "sk_46a275b9254bc7e7eb392a2f5d9852dd120f8ce6";
+    const sk = process.env.FASTSOFT_SECRET_KEY || "sk_46a275b9254bc7e7eb392a2f5d9852dd120f8ce6";
     const authHeader = 'Basic ' + Buffer.from(sk + ':').toString('base64');
 
     try {
