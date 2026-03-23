@@ -4,8 +4,13 @@ export default async function handler(req, res) {
     }
 
     const payload = req.body;
-    const sk = process.env.FASTSOFT_SECRET_KEY || "sk_46a275b9254bc7e7eb392a2f5d9852dd120f8ce6";
-    const authHeader = 'Basic ' + Buffer.from(sk + ':').toString('base64');
+    const sk = process.env.FASTSOFT_SECRET_KEY;
+    if (!sk) {
+        return res.status(500).json({
+            message: 'FASTSOFT_SECRET_KEY nao configurada no ambiente'
+        });
+    }
+    const authHeader = 'Basic ' + Buffer.from('x:' + sk).toString('base64');
 
     try {
         const response = await fetch('https://api.fastsoftbrasil.com/api/user/transactions', {
@@ -21,6 +26,10 @@ export default async function handler(req, res) {
         const data = await response.json().catch(() => ({}));
         
         if (!response.ok) {
+            console.error('FastSoft PIX error', {
+                status: response.status,
+                data
+            });
             return res.status(response.status).json(data);
         }
         
