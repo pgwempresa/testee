@@ -245,17 +245,21 @@
         // 3. Atualizar e exibir parcelas
         function atualizarValores() {
             let totalExib = totalVal.toFixed(2).replace('.', ',');
-            document.getElementById('valorFreteVisual').innerText = "R$ " + totalExib;
-            document.getElementById('valorTotalFinal').innerText = "R$ " + totalExib;
+            const elVisual = document.getElementById('valorFreteVisual');
+            if(elVisual) elVisual.innerText = "R$ " + totalExib;
             
-            // Popula select das parcelas baseado no total do frete
-            const valParcela = (totalVal / 3).toFixed(2).replace('.', ',');
+            const elFinal = document.getElementById('valorTotalFinal');
+            if(elFinal) elFinal.innerText = "R$ " + totalExib;
+            
+            // Popula select das parcelas se existir na tela (foi removido do HTML)
             const sel = document.getElementById('selectParcelas');
-            sel.innerHTML = `
-                <option value="1">1x de R$ ${totalExib} sem juros</option>
-                <option value="2">2x de R$ ${(totalVal/2).toFixed(2).replace('.', ',')} sem juros</option>
-                <option value="3">3x de R$ ${(totalVal/3).toFixed(2).replace('.', ',')} sem juros</option>
-            `;
+            if(sel) {
+                sel.innerHTML = `
+                    <option value="1">1x de R$ ${totalExib} sem juros</option>
+                    <option value="2">2x de R$ ${(totalVal/2).toFixed(2).replace('.', ',')} sem juros</option>
+                    <option value="3">3x de R$ ${(totalVal/3).toFixed(2).replace('.', ',')} sem juros</option>
+                `;
+            }
         }
         atualizarValores();
 
