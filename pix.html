@@ -51,11 +51,30 @@
             alert("Nenhum pedido encontrado. Redirecionando para o início.");
             window.location.href = 'index.html';
         } else {
-            document.getElementById('pixCode').value = pixData.qrCode || "Código indisponível";
-            if(pixData.qrImg) document.getElementById('pixQrcode').src = pixData.qrImg;
+            const qrCode = pixData.qrCode || "";
+            const qrImg = normalizarQrImage(pixData.qrImg || "");
+            const qrInput = document.getElementById('pixCode');
+            const qrImage = document.getElementById('pixQrcode');
+
+            qrInput.value = qrCode || "Código indisponível";
+
+            if (qrImg) {
+                qrImage.src = qrImg;
+                qrImage.alt = "QR Code PIX";
+            } else {
+                qrImage.style.display = 'none';
+                document.querySelector('.qr-code-box').innerHTML = '<p style="margin:0; color:#666;">QR Code indisponível no momento.</p>';
+            }
             
             // Inicia o Polling para a FastSoft
             iniciarPolling(pixData.id);
+        }
+
+        function normalizarQrImage(value) {
+            if (!value) return "";
+            if (value.startsWith('data:image')) return value;
+            if (value.startsWith('http://') || value.startsWith('https://')) return value;
+            return `data:image/png;base64,${value}`;
         }
 
         function copiarPix() {

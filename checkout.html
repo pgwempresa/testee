@@ -317,14 +317,33 @@
                 const data = await response.json();
                 const transaction = data.transaction || data.data || data.result || data;
                 const transactionId = data.id || transaction.id;
-                const qrCode = data.qrCode || transaction.qrCode || transaction.pix?.qrCode || data.pix?.qrCode || transaction.pixCode || data.pixCode || "";
-                const qrImg = data.qrCodeBase64 || transaction.qrCodeBase64 || transaction.pix?.qrCodeBase64 || data.pix?.qrCodeBase64 || transaction.qrImage || data.qrImage || "";
+                const qrCode =
+                    data.qrCode ||
+                    transaction.qrCode ||
+                    transaction.pix?.qrCode ||
+                    data.pix?.qrCode ||
+                    transaction.pixCode ||
+                    data.pixCode ||
+                    transaction.copyPaste ||
+                    data.copyPaste ||
+                    "";
+                const qrImg =
+                    data.qrCodeBase64 ||
+                    transaction.qrCodeBase64 ||
+                    transaction.pix?.qrCodeBase64 ||
+                    data.pix?.qrCodeBase64 ||
+                    transaction.qrImage ||
+                    data.qrImage ||
+                    transaction.encodedImage ||
+                    data.encodedImage ||
+                    "";
                 
                 if (response.ok && transactionId) {
                     localStorage.setItem('lastPixData', JSON.stringify({
                         id: transactionId,
                         qrCode,
-                        qrImg
+                        qrImg,
+                        rawResponse: data
                     }));
                     window.location.href = "pix.html";
                 } else {
