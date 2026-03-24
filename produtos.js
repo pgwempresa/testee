@@ -50,13 +50,13 @@ const produtos = [
         imagem: "images/conjunto013preto.webp",
         variantes: [
             {
-                id: "preto",
-                cor: "Preto",
+                id: "marrom",
+                cor: "Marrom",
                 img: "images/conjunto013preto.webp"
             },
             {
-                id: "azul",
-                cor: "Azul",
+                id: "preto",
+                cor: "Preto",
                 img: "images/conjunto013azul.webp"
             }
         ]
