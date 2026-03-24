@@ -52,17 +52,17 @@
             <div class="form-row">
                 <div class="form-group">
                     <label>CPF *</label>
-                    <input type="text" id="chkCpf" class="form-control" placeholder="000.000.000-00" required>
+                    <input type="text" id="chkCpf" class="form-control" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)" required>
                 </div>
                 <div class="form-group">
                     <label>Telefone / WhatsApp *</label>
-                    <input type="tel" id="chkTelefone" class="form-control" placeholder="(00) 00000-0000" required>
+                    <input type="tel" id="chkTelefone" class="form-control" placeholder="(00) 00000-0000" maxlength="15" oninput="maskPhone(this)" required>
                 </div>
             </div>
             
             <div class="form-group" style="margin-top: 10px; border-top: 1px dashed #e0e0e0; padding-top: 15px;">
                 <label>CEP *</label>
-                <input type="text" id="chkCep" class="form-control" placeholder="00000-000" required>
+                <input type="text" id="chkCep" class="form-control" placeholder="00000-000" maxlength="9" oninput="maskCEP(this)" onblur="buscarCEP(this.value)" required>
             </div>
             <div class="form-row">
                 <div class="form-group" style="flex: 2;">
@@ -418,6 +418,51 @@
             secEl.innerText = secs < 10 ? '0'+secs : secs;
         }, 1000);
 
+        // 7. Máscaras de Input
+        function maskCPF(input) {
+            let v = input.value.replace(/\D/g, '');
+            if(v.length > 11) v = v.slice(0, 11);
+            if(v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, "$1.$2.$3-$4");
+            else if(v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, "$1.$2.$3");
+            else if(v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/, "$1.$2");
+            input.value = v;
+        }
+
+        function maskPhone(input) {
+            let v = input.value.replace(/\D/g, '');
+            if(v.length > 11) v = v.slice(0, 11);
+            if(v.length > 10) v = v.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+            else if(v.length > 6) v = v.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+            else if(v.length > 2) v = v.replace(/^(\d{2})(\d{0,5})/, "($1) $2");
+            input.value = v;
+        }
+
+        function maskCEP(input) {
+            let v = input.value.replace(/\D/g, '');
+            if(v.length > 8) v = v.slice(0, 8);
+            if(v.length > 5) v = v.replace(/^(\d{5})(\d{1,3}).*/, "$1-$2");
+            input.value = v;
+        }
+
+        // 8. Busca Automática de CEP (ViaCEP)
+        async function buscarCEP(cep) {
+            const cleanCep = cep.replace(/\D/g, '');
+            if(cleanCep.length === 8) {
+                try {
+                    const response = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`);
+                    const data = await response.json();
+                    if(!data.erro) {
+                        document.getElementById('chkRua').value = data.logradouro;
+                        document.getElementById('chkBairro').value = data.bairro;
+                        document.getElementById('chkCidade').value = data.localidade;
+                        document.getElementById('chkEstado').value = data.uf;
+                        document.getElementById('chkNumero').focus(); // Joga o foco pro número
+                    }
+                } catch(error) {
+                    console.error("Erro ao buscar CEP:", error);
+                }
+            }
+        }
     </script>
 </body>
 </html>
