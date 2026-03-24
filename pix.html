@@ -353,14 +353,6 @@
                         }
 
                         if (t.status === 'PAID' || t.status === 'APPROVED' || t.status === 'COMPLETED' || t.status === 2 || t.status === 'PAGO') {
-                            // TikTok Event: CompletePayment (Pagamento Confirmado)
-                            if(typeof ttq !== 'undefined') {
-                                ttq.track('CompletePayment', {
-                                    content_type: 'product',
-                                    content_id: pixData.id,
-                                    currency: 'BRL'
-                                });
-                            }
                             window.location.href = 'obrigado.html';
                         }
                     }
