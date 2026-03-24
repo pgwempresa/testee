@@ -154,7 +154,7 @@
         const detailContainer = document.getElementById('productDetail');
 
         const extraImages = (produto.variantes && produto.variantes.length > 0) ? produto.variantes.map(v => v.img) : [];
-        const galleryImages = [produto.imagem, ...extraImages].filter((value, index, self) => self.indexOf(value) === index);
+        const galleryImages = [produto.imagem, ...extraImages, ...(produto.imagensExtras || [])].filter((value, index, self) => self.indexOf(value) === index);
 
         const carouselHTML = `
             <div class="carousel-wrapper">

@@ -322,22 +322,11 @@ const produtos = [
             "Estilo casual chic"
         ],
         imagem: "images/conjunto03.webp",
-        variantes: [
-            {
-                id: "p1",
-                cor: "Detalhe",
-                img: "images/conjunto03.webp"
-            },
-            {
-                id: "p2",
-                cor: "Detalhe",
-                img: "images/conjunto033.webp"
-            },
-            {
-                id: "p3",
-                cor: "Detalhe",
-                img: "images/conjunto0333.webp"
-            }
+        variantes: [],
+        imagensExtras: [
+            "images/conjunto03.webp",
+            "images/conjunto033.webp",
+            "images/conjunto0333.webp"
         ]
     },
     {
@@ -353,27 +342,12 @@ const produtos = [
             "Alonga o contorno feminino"
         ],
         imagem: "images/conjunto06.webp",
-        variantes: [
-            {
-                id: "p1",
-                cor: "Detalhe",
-                img: "images/conjunto06.webp"
-            },
-            {
-                id: "p2",
-                cor: "Detalhe",
-                img: "images/conjunto06.1"
-            },
-            {
-                id: "p3",
-                cor: "Detalhe",
-                img: "images/conjunto06.2"
-            },
-            {
-                id: "p4",
-                cor: "Detalhe",
-                img: "images/conjunto066.webp"
-            }
+        variantes: [],
+        imagensExtras: [
+            "images/conjunto06.webp",
+            "images/conjunto06.1",
+            "images/conjunto06.2",
+            "images/conjunto066.webp"
         ]
     },
     {
@@ -389,17 +363,10 @@ const produtos = [
             "Praticidade absoluta"
         ],
         imagem: "images/conjunto012.webp",
-        variantes: [
-            {
-                id: "p1",
-                cor: "Detalhe",
-                img: "images/conjunto012.webp"
-            },
-            {
-                id: "p2",
-                cor: "Detalhe",
-                img: "images/conjunto0122.webp"
-            }
+        variantes: [],
+        imagensExtras: [
+            "images/conjunto012.webp",
+            "images/conjunto0122.webp"
         ]
     },
     {
@@ -416,32 +383,6 @@ const produtos = [
         ],
         imagem: "images/conjunto016.webp",
         variantes: []
-    },
-    {
-        id: 15,
-        nome: "Conjunto Natália",
-        precoOriginal: "319,90",
-        badge: "NOVO",
-        descricao: "Feito para os dias em que o estilo não pode faltar, Natália traz tecidos terrosos sofisticados misturados a um caimento exato de alfaiataria premium.",
-        caracteristicas: [
-            "Tom terroso em alta tendência internacional",
-            "Acabamento primoroso",
-            "Zero transparência mesmo no sol",
-            "Design atemporal"
-        ],
-        imagem: "images/conjunto13marrom.webp",
-        variantes: [
-            {
-                id: "marrom1",
-                cor: "Principal",
-                img: "images/conjunto13marrom.webp"
-            },
-            {
-                id: "marrom2",
-                cor: "Detalhe",
-                img: "images/conjunt055marrom.webp"
-            }
-        ]
     },
     {
         id: 16,
@@ -604,17 +545,10 @@ const produtos = [
             "Conforto térmico excepcional"
         ],
         imagem: "images/conjuntovioleta02.webp",
-        variantes: [
-            {
-                id: "viol1",
-                cor: "Violeta",
-                img: "images/conjuntovioleta02.webp"
-            },
-            {
-                id: "viol2",
-                cor: "Violeta",
-                img: "images/conjuntovioletacurto.webp"
-            }
+        variantes: [],
+        imagensExtras: [
+            "images/conjuntovioleta02.webp",
+            "images/conjuntovioletacurto.webp"
         ]
     }
 ];
