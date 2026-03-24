@@ -6,8 +6,24 @@
     --border-color: #e0e0e0; 
     --error-red: #e74c3c; 
 }
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Montserrat',sans-serif; }
-body { background: var(--bg-main); color: var(--text-main); padding-bottom: 50px;}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+@keyframes fadeInPage {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+body {
+    animation: fadeInPage 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; background: var(--bg-main); color: var(--text-main); padding-bottom: 50px;}
 
 .header-checkout { 
     background: #fff; 
@@ -97,12 +113,30 @@ body { background: var(--bg-main); color: var(--text-main); padding-bottom: 50px
 .form-row .form-group { flex: 1; }
 .form-group { margin-bottom: 15px; width: 100%;}
 .form-group label { display: block; font-size: 0.8rem; margin-bottom: 6px; color: #666; font-weight: 500;}
-.form-control { width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 12px 14px; font-size: 0.95rem; outline: none; transition: border 0.2s; background: #fafafa;}
-.form-control:focus { border-color: var(--yampi-green); background: #fff;}
+.form-control {
+    width: 100%; border: 1px solid #dcdcdc; border-radius: 6px; padding: 12px;
+    font-size: 0.9rem; outline: none; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.form-control:focus { 
+    border-color: #333; 
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+    background-color: #fafafa;
+}
 
 /* Shipping */
-.shipping-option { border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: 0.2s; }
-.shipping-option.selected { border-color: var(--yampi-green); background: #f0fdf6; }
+.shipping-option {
+    display: flex; align-items: center; border: 1px solid #e0e0e0; border-radius: 8px;
+    padding: 12px; margin-bottom: 10px; cursor: pointer; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.shipping-option:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+.shipping-option.selected {
+    border-color: #00c16e; background-color: #f0fdf6;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,193,110,0.15);
+}
 .shipping-radio { accent-color: var(--yampi-green); width: 18px; height: 18px;}
 .shipping-info { flex: 1; display:flex; flex-direction: column; gap:2px;}
 .shipping-title { font-weight: 600; font-size: 0.9rem; color:#333;}

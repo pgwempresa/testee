@@ -6,10 +6,26 @@
     <title>Resgatar Peça - Elena Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="pages.css">
+
+    <!-- TikTok Pixel Code Start -->
+    <script>
+    !function (w, d, t) {
+      w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
+      var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
+      ;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+
+      ttq.load('D470E4RC77U2P8MCJJR0');
+      ttq.page();
+    }(window, document, 'ttq');
+    </script>
+    <!-- TikTok Pixel Code End -->
+
     <style>
         /* Componentes Exclusivos da Nova Página de Produto Premium */
-        .size-btn { border: 1px solid #dcdcdc; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; border-radius: 6px; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: 0.2s; color: #555; background: #fff;}
-        .size-btn.active { border-color: var(--text-dark); background: var(--text-dark); color: #fff; }
+        .size-btn { border: 1px solid #dcdcdc; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; border-radius: 6px; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); color: #555; background: #fff;}
+        .size-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-color: #999; }
+        .size-btn:active { transform: scale(0.95); }
+        .size-btn.active { border-color: var(--text-dark); background: var(--text-dark); color: #fff; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
 
         .accordion { border-bottom: 1px solid #eee; padding: 20px 0; }
         .accordion summary { font-weight: 600; font-size: 0.95rem; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; outline: none;}
@@ -23,7 +39,14 @@
         .sticky-bottom-bar.visible { opacity: 1; visibility: visible; transform: translateY(0);}
         .sticky-bottom-bar .btn-checkout { margin: 0; max-width: 500px; padding: 18px; font-size: 0.95rem; width: 100%;}
         
-        .product-detail-img { transition: opacity 0.2s ease-in-out; }
+        .carousel-wrapper { position: relative; margin-left: -20px; margin-right: -20px; margin-bottom: 20px; overflow: hidden; }
+        .carousel-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .carousel-container::-webkit-scrollbar { display: none; }
+        .carousel-slide { flex: 0 0 100%; scroll-snap-align: center; position: relative; display: flex; justify-content: center;}
+        .carousel-slide img { width: 100%; max-height: 80vh; display: block; object-fit: cover; }
+        .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 15px; margin-bottom: 25px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #ddd; cursor: pointer; transition: 0.3s; }
+        .dot.active { background: var(--text-dark); transform: scale(1.2); }
     </style>
 </head>
 <body>
@@ -111,12 +134,50 @@
             window.location.href = `checkout.html?id=${produto.id}&size=${size}${colorParam}${imgSrcParam}`;
         }
 
+        // TikTok Event: AddToCart (disparado ao clicar em Resgatar)
+        const originalGoToCheckout = goToCheckout;
+        goToCheckout = function() {
+            if(typeof ttq !== 'undefined') {
+                ttq.track('AddToCart', {
+                    content_type: 'product',
+                    content_id: String(produto.id),
+                    content_name: produto.nome,
+                    price: 0,
+                    value: 0,
+                    currency: 'BRL',
+                    quantity: 1
+                });
+            }
+            originalGoToCheckout();
+        };
+
         const detailContainer = document.getElementById('productDetail');
-        detailContainer.innerHTML = `
-            <div style="position: relative; margin-bottom: 25px;">
-                <img src="${produto.imagem}" class="product-detail-img" id="mainProdImage" alt="${produto.nome}" style="border-radius: 4px;">
-                ${produto.badge ? `<div class="badge">${produto.badge}</div>` : ''}
+
+        const extraImages = (produto.variantes && produto.variantes.length > 0) ? produto.variantes.map(v => v.img) : [];
+        const galleryImages = [produto.imagem, ...extraImages].filter((value, index, self) => self.indexOf(value) === index);
+
+        const carouselHTML = `
+            <div class="carousel-wrapper">
+                <div class="carousel-container" id="carouselList" onscroll="updateDots()">
+                    ${galleryImages.map((imgSrc, i) => `
+                        <div class="carousel-slide">
+                            <img src="${imgSrc}" id="${i===0 ? 'mainProdImage' : ''}" alt="${produto.nome}">
+                        </div>
+                    `).join('')}
+                </div>
+                ${produto.badge ? `<div style="position:absolute; top: 15px; left: 15px; background:rgba(255,255,255,0.9); z-index: 2; padding: 4px 10px; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; color: var(--text-dark); border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">${produto.badge}</div>` : ''}
             </div>
+            ${galleryImages.length > 1 ? `
+            <div class="carousel-dots" id="carouselDots">
+                ${galleryImages.map((_, i) => `
+                    <div class="dot ${i === 0 ? 'active' : ''}" onclick="scrollToSlide(${i})"></div>
+                `).join('')}
+            </div>
+            ` : ''}
+        `;
+
+        detailContainer.innerHTML = `
+            ${carouselHTML}
             
             <h1 class="product-detail-title">${produto.nome}</h1>
             
@@ -125,25 +186,28 @@
                 <span style="color:var(--text-dark); font-weight:600; margin-left:5px;">4.9 (428 avaliações)</span>
             </div>
 
-            <div class="price-line" style="font-size: 1.6rem; margin-bottom: 25px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;">
+            <div class="price-line" style="font-size: 1.6rem; margin-bottom: 30px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;">
                 <span class="price-free" style="color: #00c16e; font-weight: 800; font-size: 1.8rem; line-height: 1;">TOTALMENTE GRÁTIS</span>
                 <span class="price-old" style="font-size: 1.15rem; color: var(--warning-red); font-weight: 600;">R$ ${produto.precoOriginal}</span>
             </div>
-            
+
             ${produto.variantes && produto.variantes.length > 0 ? `
                 <div class="product-variants" style="margin-bottom: 30px;">
-                    <p style="font-weight: 600; font-size: 0.85rem; margin-bottom: 12px; color: var(--text-dark); text-transform: uppercase; letter-spacing: 1px;">Cor selecionada: <span id="selectedColorLabel" style="color: #666; font-weight: 500;">${produto.variantes[0].cor}</span></p>
+                    <p style="font-weight: 600; font-size: 0.85rem; margin-bottom: 12px; color: var(--text-dark); text-transform: uppercase; letter-spacing: 1px;">Selecionado: <span id="selectedColorLabel" style="color: #666; font-weight: 500; text-transform: none; margin-left: 5px;">${produto.variantes[0].cor}</span></p>
                     <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                        ${produto.variantes.map((v, idx) => `
+                        ${galleryImages.map((imgSrc, idx) => {
+                            const vari = produto.variantes.find(v => v.img === imgSrc) || {cor: 'Detalhe'};
+                            return `
                             <div class="variant-btn" 
-                                 onclick="selectVariant('${v.img}', '${v.cor}', this)" 
-                                 style="width: 55px; height: 55px; border-radius: 50%; padding: 2px; border: 2px solid ${idx===0? 'var(--text-dark)' : 'transparent'}; cursor: pointer; transition: 0.2s;">
-                                <div style="width: 100%; height: 100%; border-radius: 50%; background-image: url('${v.img}'); background-size: cover; background-position: top; border: 1px solid #ddd; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);"></div>
+                                 onclick="selectVariant('${imgSrc}', '${vari.cor}', ${idx}, this)" 
+                                 style="width: 55px; height: 55px; border-radius: 8px; padding: 2px; border: 2px solid ${idx===0? 'var(--text-dark)' : 'transparent'}; cursor: pointer; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);">
+                                <div style="width: 100%; height: 100%; border-radius: 5px; background-image: url('${imgSrc}'); background-size: cover; background-position: top; border: 1px solid #eee;"></div>
                             </div>
-                        `).join('')}
+                            `;
+                        }).join('')}
                     </div>
                 </div>
-            ` : ''}
+            ` : `<span id="selectedColorLabel" style="display:none;"></span>`}
 
             <div class="size-selector" style="margin-bottom: 35px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 15px; align-items: center;">
@@ -228,18 +292,39 @@
             </div>
         `;
 
-        // Engine de Atualização de UI (Troca Suave de Imagens)
-        window.selectVariant = function(imgSrc, colorName, element) {
-            const img = document.getElementById('mainProdImage');
-            img.style.opacity = 0.5;
-            setTimeout(() => {
-                img.src = imgSrc;
-                img.style.opacity = 1;
-            }, 150);
-            
+        window.selectVariant = function(imgSrc, colorName, index, element) {
             document.getElementById('selectedColorLabel').innerText = colorName;
             document.querySelectorAll('.variant-btn').forEach(btn => btn.style.borderColor = 'transparent');
             element.style.borderColor = 'var(--text-dark)';
+            window.scrollToSlide(index);
+        };
+
+        // Lógica de Paginação do Carrossel e Tamanhos
+        window.updateDots = function() {
+            const list = document.getElementById('carouselList');
+            const index = Math.round(list.scrollLeft / list.clientWidth);
+            
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((d, i) => {
+                if(i === index) d.classList.add('active');
+                else d.classList.remove('active');
+            });
+
+            const btns = document.querySelectorAll('.variant-btn');
+            if(btns.length > index) {
+                btns.forEach(btn => btn.style.borderColor = 'transparent');
+                btns[index].style.borderColor = 'var(--text-dark)';
+                // Atualiza também o nome da opção ao arrastar pro lado (sincronia mágica)
+                if(produto.variantes) {
+                    const vari = produto.variantes.find(v => v.img === galleryImages[index]);
+                    if(vari) document.getElementById('selectedColorLabel').innerText = vari.cor;
+                }
+            }
+        };
+
+        window.scrollToSlide = function(index) {
+            const list = document.getElementById('carouselList');
+            list.scrollTo({ left: list.clientWidth * index, behavior: 'smooth' });
         };
 
         window.selectSize = function(element, size) {
@@ -271,6 +356,18 @@
         function closeSidebar() {
             document.getElementById('sidebarMenu').classList.remove('active');
             document.getElementById('sidebarOverlay').classList.remove('active');
+        }
+
+        // TikTok Event: ViewContent (Produto Individual)
+        if(typeof ttq !== 'undefined') {
+            ttq.track('ViewContent', {
+                content_type: 'product',
+                content_id: String(produto.id),
+                content_name: produto.nome,
+                price: 0,
+                value: 0,
+                currency: 'BRL'
+            });
         }
     </script>
 </body>
