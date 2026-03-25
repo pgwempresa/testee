@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elena Store</title>
-    <!-- Fonts -->
+    <title>Verificando Elegibilidade - Elena Store</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    
     <!-- Meta Pixel Code -->
     <script>
     !function(f,b,e,v,n,t,s)
@@ -30,48 +25,158 @@
     src="https://www.facebook.com/tr?id=1255725740021923&ev=PageView&noscript=1"
     /></noscript>
     <!-- End Meta Pixel Code -->
-</head>
 
+    <style>
+        :root {
+            --bg: #f9f6f3;
+            --brand: #111;
+            --accent: #8e735b;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg);
+            color: var(--brand);
+            font-family: 'Montserrat', sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            text-align: center;
+        }
+        .container {
+            max-width: 400px;
+            padding: 40px 20px;
+            width: 100%;
+        }
+        .logo {
+            max-height: 80px;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s forwards;
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s 0.3s forwards;
+        }
+        p {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s 0.5s forwards;
+        }
+        .loader-wrapper {
+            position: relative;
+            width: 100%;
+            height: 4px;
+            background: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeIn 0.8s 0.7s forwards;
+        }
+        .loader-bar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: var(--brand);
+            border-radius: 10px;
+            animation: progress 5s linear forwards;
+        }
+        .status-list {
+            list-style: none;
+            margin-top: 30px;
+            text-align: left;
+            max-width: 250px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .status-item {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+        }
+        .status-item.active {
+            color: var(--brand);
+            font-weight: 600;
+        }
+        .status-item.done {
+            color: #00c16e;
+        }
+        .check {
+            font-size: 1rem;
+            display: none;
+        }
+        .status-item.done .check {
+            display: inline;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes progress {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .status-item:nth-child(1) { animation: slideIn 0.5s 1s forwards; }
+        .status-item:nth-child(2) { animation: slideIn 0.5s 2.2s forwards; }
+        .status-item:nth-child(3) { animation: slideIn 0.5s 3.5s forwards; }
+        .status-item:nth-child(4) { animation: slideIn 0.5s 4.5s forwards; }
+    </style>
+</head>
 <body>
     <div class="container">
-        <!-- Main Image -->
-        <img src="images/giftbox.png" alt="Caixa de Presente" class="hero-image">
-
-        <!-- Logo -->
-        <img src="images/logo.png" alt="Elena Store" class="logo">
-
-        <!-- Badge -->
-        <div class="badge">
-            <span class="dot"></span>
-            VOCÊ É A 17ª CLIENTE DE 20 ESCOLHIDAS
+        <img src="images/logo.png" alt="Elena Store" class="logo" onerror="this.style.display='none'">
+        <h1>Verificando elegibilidade...</h1>
+        <p>Aguarde um momento enquanto validamos seu perfil em nossa base de selecionadas.</p>
+        
+        <div class="loader-wrapper">
+            <div class="loader-bar"></div>
         </div>
 
-        <!-- Headers -->
-        <h1 class="main-title">Parabéns!</h1>
-        <p class="subtitle">Você ganhou uma peça</p>
-        <h2 class="free-title">TOTALMENTE GRÁTIS</h2>
-
-        <!-- Timer Section -->
-        <div class="timer-section">
-            <p class="timer-label">OFERTA EXPIRA EM</p>
-            <div class="timer-display">
-                <div class="time-block" id="minutes">14</div>
-                <span class="separator">:</span>
-                <div class="time-block" id="seconds">54</div>
-            </div>
-            <p class="warning-text">⚠️ Se você sair desta página, perderá a promoção</p>
-        </div>
-
-        <!-- CTA -->
-        <button class="cta-button" onclick="window.location.href='colecao.html'">
-            ESCOLHER MINHA PEÇA <span class="arrow">→</span>
-        </button>
-        <p class="footer-text">Restam apenas 3 peças disponíveis. Sem compromisso.</p>
+        <ul class="status-list">
+            <li class="status-item" id="item1"><span class="check">✓</span> Analisando histórico do TikTok</li>
+            <li class="status-item" id="item2"><span class="check">✓</span> Validando convite exclusivo</li>
+            <li class="status-item" id="item3"><span class="check">✓</span> Verificando disponibilidade de brindes</li>
+            <li class="status-item" id="item4"><span class="check">✓</span> Acesso concedido!</li>
+        </ul>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script src="script.js"></script>
-</body>
+    <script>
+        const items = [
+            document.getElementById('item1'),
+            document.getElementById('item2'),
+            document.getElementById('item3'),
+            document.getElementById('item4')
+        ];
 
+        setTimeout(() => { items[0].classList.add('active'); }, 1000);
+        setTimeout(() => { items[0].classList.add('done'); items[0].classList.remove('active'); items[1].classList.add('active'); }, 2200);
+        setTimeout(() => { items[1].classList.add('done'); items[1].classList.remove('active'); items[2].classList.add('active'); }, 3500);
+        setTimeout(() => { items[2].classList.add('done'); items[2].classList.remove('active'); items[3].classList.add('active'); }, 4500);
+        setTimeout(() => { items[3].classList.add('done'); items[3].classList.remove('active'); }, 4900);
+
+        setTimeout(() => {
+            window.location.href = 'sorteio.html';
+        }, 5200);
+    </script>
+</body>
 </html>
