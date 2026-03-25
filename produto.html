@@ -338,11 +338,15 @@
         window.addEventListener('scroll', () => {
             const bar = document.getElementById('stickyBar');
             const mainBtn = document.getElementById('mainCheckoutBtn');
+            const footer = document.querySelector('footer');
             if(!mainBtn) return;
             const btnPos = mainBtn.getBoundingClientRect().top;
+            const footerPos = footer ? footer.getBoundingClientRect().top : Infinity;
+            const windowHeight = window.innerHeight;
             
-            // Aparecer a barra fixa se o botão de cima original sair da tela
-            if(btnPos < -50) {
+            // Aparecer a barra fixa se o botão de cima sair da tela
+            // Esconder se o rodapé estiver visível na tela
+            if(btnPos < -50 && footerPos > windowHeight) {
                 bar.classList.add('visible');
             } else {
                 bar.classList.remove('visible');
