@@ -564,8 +564,17 @@
                         currency: 'BRL',
                         value: totalVal
                     });
+                    fbq('trackCustom', 'PixGenerated', {
+                        transaction_id: String(transactionId),
+                        content_ids: [String(prodId)],
+                        content_name: produto.nome,
+                        content_type: 'product',
+                        currency: 'BRL',
+                        value: totalVal
+                    });
 
                     localStorage.setItem('lastPurchaseValue', totalVal);
+                    localStorage.setItem('lastTrackedPixId', String(transactionId));
                     localStorage.setItem('lastPixData', JSON.stringify({
                         id: transactionId,
                         qrCode,
