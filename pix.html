@@ -269,9 +269,25 @@
             exibirMensagem('warning', 'Nenhum pedido encontrado. Redirecionando para o inicio.');
             window.location.href = 'index.html';
         } else {
+            registrarPixGerado(pixData.id);
             atualizarCodigo(pixData.qrCode || "");
             carregarCodigoPix(pixData.id);
             iniciarPolling(pixData.id);
+        }
+
+        function registrarPixGerado(transactionId) {
+            const lastTrackedPixId = localStorage.getItem('lastTrackedPixId');
+            if (!transactionId || lastTrackedPixId === String(transactionId) || typeof fbq !== 'function') {
+                return;
+            }
+
+            const value = parseFloat(localStorage.getItem('lastPurchaseValue')) || 0;
+            fbq('trackCustom', 'PixGenerated', {
+                transaction_id: String(transactionId),
+                currency: 'BRL',
+                value
+            });
+            localStorage.setItem('lastTrackedPixId', String(transactionId));
         }
 
         function atualizarCodigo(value) {
