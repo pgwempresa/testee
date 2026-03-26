@@ -19,10 +19,12 @@
     fbq('track', 'PageView');
     
     // Meta Event: Purchase
-    fbq('track', 'Purchase', {
-        currency: 'BRL',
-        value: parseFloat(localStorage.getItem('lastPurchaseValue')) || 0
-    });
+    if (localStorage.getItem('lastPurchaseTrackedOnPix') !== 'true') {
+        fbq('track', 'Purchase', {
+            currency: 'BRL',
+            value: parseFloat(localStorage.getItem('lastPurchaseValue')) || 0
+        });
+    }
     </script>
     <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=1255725740021923&ev=PageView&noscript=1"
