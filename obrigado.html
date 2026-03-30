@@ -16,8 +16,9 @@
       // TikTok Event: CompletePayment
       if (localStorage.getItem('lastPurchaseTrackedOnPix') !== 'true') {
           ttq.track('CompletePayment', {
+              content_type: 'product',
               currency: 'BRL',
-              value: parseFloat(localStorage.getItem('lastPurchaseValue')) || 0
+              value: 29.90
           });
       }
     }(window, document, 'ttq');

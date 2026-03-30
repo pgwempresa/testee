@@ -277,8 +277,9 @@
             const value = parseFloat(localStorage.getItem('lastPurchaseValue')) || 0;
             ttq.track('CompletePayment', {
                 content_id: String(transactionId),
+                content_type: 'product',
                 currency: 'BRL',
-                value: value
+                value: 29.90
             });
             localStorage.setItem('lastTrackedPixId', String(transactionId));
         }
