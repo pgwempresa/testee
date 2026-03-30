@@ -3,27 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Resgatar Peça - Elena Store</title>
+    <title>Comprar Peça - Elena Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="pages.css">
 
-    <!-- Meta Pixel Code -->
+    <!-- TikTok Pixel Code -->
     <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1255725740021923');
-    fbq('track', 'PageView');
+    !function (w, d, t) {
+      w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=r+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
+    
+      ttq.load('D470E4RC77U2P8MCJJR0');
+      ttq.page();
+    }(window, document, 'ttq');
     </script>
-    <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1255725740021923&ev=PageView&noscript=1"
-    /></noscript>
-    <!-- End Meta Pixel Code -->
+    <!-- End TikTok Pixel Code -->
 
     <style>
         /* Componentes Exclusivos da Nova Página de Produto Premium */
@@ -80,7 +73,7 @@
             <button onclick="openSidebar()" style="position: absolute; left: 15px; background:none; border:none; font-size:1.6rem; cursor:pointer; color:var(--text-dark); padding: 5px;">☰</button>
             <img src="images/logo.png" alt="Elena Store" class="nav-logo" onerror="this.style.display='none'" style="max-height: 58px;">
         </div>
-        <div class="warning-banner" style="background:#000; color:#fff;">🎁 Você selecionou o seu brinde exclusivo da nossa coleção. Finalize o resgate agora.</div>
+        <div class="warning-banner" style="background:#000; color:#fff;">🎁 Você selecionou sua peça exclusiva por apenas R$ 29,90 com frete grátis liberado. Aproveite!</div>
     </header>
 
     <main class="product-page-container" id="productDetail" style="padding-bottom: 60px;">
@@ -90,7 +83,7 @@
     <!-- Barra Rápida de Compra Fixa Mobile -->
     <div class="sticky-bottom-bar" id="stickyBar">
         <button class="btn-checkout" onclick="goToCheckout()">
-            RESGATAR MINHA PEÇA →
+            FINALIZAR COMPRA →
         </button>
     </div>
 
@@ -139,16 +132,18 @@
             window.location.href = `checkout.html?id=${produto.id}&size=${size}${colorParam}${imgSrcParam}`;
         }
 
-        // Meta Event: AddToCart (disparado ao clicar em Resgatar)
+        // TikTok Event: AddToCart (disparado ao clicar em Resgatar)
         const originalGoToCheckout = goToCheckout;
         goToCheckout = function() {
-            fbq('track', 'AddToCart', {
-                content_ids: [String(produto.id)],
-                content_name: produto.nome,
-                content_type: 'product',
-                currency: 'BRL',
-                value: 0
-            });
+            if(typeof ttq !== 'undefined') {
+                ttq.track('AddToCart', {
+                    content_id: String(produto.id),
+                    content_name: produto.nome,
+                    content_type: 'product',
+                    currency: 'BRL',
+                    value: 0
+                });
+            }
             originalGoToCheckout();
         };
 
@@ -188,7 +183,7 @@
             </div>
 
             <div class="price-line" style="font-size: 1.6rem; margin-bottom: 30px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;">
-                <span class="price-free" style="color: #00c16e; font-weight: 800; font-size: 1.8rem; line-height: 1;">TOTALMENTE GRÁTIS</span>
+                <span class="price-free" style="color: #00c16e; font-weight: 800; font-size: 1.8rem; line-height: 1;">R$ 29,90</span>
                 <span class="price-old" style="font-size: 1.15rem; color: var(--warning-red); font-weight: 600;">R$ ${produto.precoOriginal}</span>
             </div>
 
@@ -225,7 +220,7 @@
             </div>
 
             <button class="btn-checkout" onclick="goToCheckout()" style="margin-bottom: 25px;" id="mainCheckoutBtn">
-                RESGATAR MINHA PEÇA →
+                FINALIZAR COMPRA →
             </button>
             
             <!-- Trust Badges Visuais -->
@@ -239,7 +234,7 @@
             <div class="product-description-block" style="margin-bottom: 40px; background: #fff; padding: 25px 20px; border-radius: 8px; border: 1px solid #eee;">
                 <h3 style="font-size: 1.2rem; font-family: 'Playfair Display', serif; margin-bottom: 15px; color: var(--text-dark);">Sobre a Peça</h3>
                 <p style="color:#555; font-size:0.95rem; line-height:1.7; margin-bottom: 25px; letter-spacing: 0.2px;">
-                    ${produto.descricao || 'Peça com estilo sofisticado, modelagem impecável e conforto para o seu dia a dia. Aproveite nosso brinde promocional! Oportunidade limitada.'}
+                    ${produto.descricao || 'Peça com estilo sofisticado, modelagem impecável e conforto para o seu dia a dia. Aproveite nosso preço promocional! Oportunidade limitada.'}
                 </p>
                 <h4 style="font-size: 0.95rem; margin-bottom: 15px; color: var(--text-dark); text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Diferenciais:</h4>
                 <ul style="list-style: none; padding: 0;">
@@ -284,7 +279,7 @@
                 </details>
                 <details class="accordion">
                     <summary>Disponibilidade e Entrega</summary>
-                    <p>A Peça promocional que você selecionou está <b>disponível em nosso estoque logístico</b> para envio imediato.<br><br>O prazo de entrega exato varia de 2 a 15 dias e será calculado no carrinho baseando-se no frete escolhido. Enviamos para todo o Brasil de forma rastreada via Correios e Transportadoras expressas.</p>
+                    <p>A Peça promocional que você selecionou está <b>disponível em nosso estoque logístico</b> para envio imediato.<br><br>O prazo de entrega exato varia de 2 a 15 dias e será calculado no carrinho. Enviamos para todo o Brasil de forma rastreada via Correios e Transportadoras expressas.</p>
                 </details>
                 <details class="accordion">
                     <summary>Trocas e Devoluções</summary>
@@ -363,14 +358,59 @@
             document.getElementById('sidebarOverlay').classList.remove('active');
         }
 
-        // Meta Event: ViewContent (Produto Individual)
-        fbq('track', 'ViewContent', {
-            content_ids: [String(produto.id)],
-            content_name: produto.nome,
-            content_type: 'product',
-            currency: 'BRL',
-            value: 0
-        });
+        // TikTok Event: ViewContent (Produto Individual)
+        if(typeof ttq !== 'undefined') {
+            ttq.track('ViewContent', {
+                content_id: String(produto.id),
+                content_name: produto.nome,
+                content_type: 'product',
+                currency: 'BRL',
+                value: 0
+            });
+        }
+        
+        // Sales Notification Logic
+        (function() {
+            const names = ['Ana', 'Beatriz', 'Carla', 'Daniela', 'Eduarda', 'Fernanda', 'Gabriela', 'Helena', 'Isabela', 'Juliana', 'Larissa', 'Mariana', 'Natália', 'Olivia', 'Patrícia', 'Renata', 'Sandra', 'Tatiana', 'Vanessa', 'Vitória'];
+            const cities = ['São Paulo, SP', 'Rio de Janeiro, RJ', 'Belo Horizonte, MG', 'Curitiba, PR', 'Porto Alegre, RS', 'Salvador, BA', 'Fortaleza, CE', 'Brasília, DF', 'Goiânia, GO', 'Manaus, AM', 'Recife, PE', 'Belém, PA', 'Florianópolis, SC', 'Vitória, ES', 'Natal, RN'];
+            
+            function showNotification() {
+                const name = names[Math.floor(Math.random() * names.length)];
+                const city = cities[Math.floor(Math.random() * cities.length)];
+                
+                // Get product names if available
+                let productName = 'uma peça';
+                if (typeof produto !== 'undefined' && produto.nome) {
+                    productName = produto.nome;
+                } else if (typeof produtos !== 'undefined' && Array.isArray(produtos)) {
+                    productName = produtos[Math.floor(Math.random() * produtos.length)].nome;
+                }
+                
+                const popup = document.createElement('div');
+                popup.className = 'sales-notification';
+                popup.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 45px; height: 45px; background: #f9f9f9; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">🛍️</div>
+                        <div>
+                            <p style="margin: 0; font-weight: 700; font-size: 0.85rem; color: #333;">${name} de ${city}</p>
+                            <p style="margin: 0; font-size: 0.8rem; color: #666; line-height: 1.3;">Acabou de comprar <strong>${productName}</strong></p>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(popup);
+                
+                setTimeout(() => popup.classList.add('visible'), 100);
+                setTimeout(() => {
+                    popup.classList.remove('visible');
+                    setTimeout(() => popup.remove(), 500);
+                }, 5000);
+            }
+
+            setTimeout(() => {
+                showNotification();
+                setInterval(showNotification, 20000);
+            }, 8000);
+        })();
     </script>
 </body>
 </html>

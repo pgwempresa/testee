@@ -314,6 +314,35 @@ footer {
     transform: translateY(-2px);
     box-shadow: 0 8px 15px rgba(0,0,0,0.15);
 }
-.btn-checkout:active {
+.sticky-bottom-bar:active {
     transform: scale(0.98);
+}
+
+/* Sales Notification */
+.sales-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: #fff;
+    padding: 12px 18px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    z-index: 9999;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid #f0f0f0;
+    max-width: 320px;
+}
+.sales-notification.visible {
+    transform: translateY(0);
+    opacity: 1;
+}
+@media (max-width: 480px) {
+    .sales-notification {
+        left: 10px;
+        right: 10px;
+        bottom: 15px;
+        max-width: calc(100% - 20px);
+    }
 }

@@ -1,5 +1,71 @@
 const produtos = [
     {
+        id: 103,
+        nome: "Blusa de Seda Florença",
+        precoOriginal: "199,90",
+        badge: "TENDÊNCIA",
+        descricao: "A Blusa de Seda Florença é uma peça indispensável no guarda-roupa da mulher moderna. Com um toque acetinado e caimento impecável, ela transita facilmente do look de trabalho para um jantar especial. Sofisticação e conforto em uma única peça.",
+        caracteristicas: [
+            "Tecido de seda sintética premium",
+            "Toque macio e acetinado",
+            "Modelagem soltinha e elegante",
+            "Cores vibrantes que não desbotam"
+        ],
+        imagem: "images/blusabranca.webp",
+        variantes: [
+            { id: "b1", cor: "Branco", img: "images/blusabranca.webp" },
+            { id: "b2", cor: "Azul", img: "images/blusaazul.webp" },
+            { id: "b3", cor: "Marrom", img: "images/blusamarrom.webp" },
+            { id: "b4", cor: "Rosa", img: "images/blusarosa.webp" },
+            { id: "b5", cor: "Verde", img: "images/blusaverde.webp" },
+            { id: "b6", cor: "Vermelho", img: "images/blusavermelho.webp" }
+        ]
+    },
+    {
+        id: 101,
+        nome: "Vestido Floral Soft",
+        precoOriginal: "329,90",
+        badge: "NOVIDADE",
+        descricao: "O Vestido Floral Soft é a definição de leveza e feminilidade. Com estampas delicadas e um corte que flui naturalmente, é a escolha perfeita para quem busca um visual romântico e sofisticado. Ideal para eventos ao ar livre ou passeios casuais com um toque de classe.",
+        caracteristicas: [
+            "Estampa digital de alta definição",
+            "Corte acinturado que valoriza a silhueta",
+            "Tecido leve e respirável (Softex)",
+            "Acabamento premium nas costuras"
+        ],
+        imagem: "images/vestidofloralazulmarinho.webp",
+        variantes: [
+            { id: "v1", cor: "Azul Marinho", img: "images/vestidofloralazulmarinho.webp" },
+            { id: "v2", cor: "Amarelo", img: "images/vestidofloralamarelo.webp" },
+            { id: "v3", cor: "Branco", img: "images/vestidofloralbranco.webp" },
+            { id: "v4", cor: "Laranja", img: "images/vestidoflorallaranja.webp" },
+            { id: "v5", cor: "Preto", img: "images/vestidofloralpreto.webp" },
+            { id: "v6", cor: "Rosa", img: "images/vestidofloralrosa.webp" },
+            { id: "v7", cor: "Roxo", img: "images/vestidofloralroxo.webp" },
+            { id: "v8", cor: "Vermelho", img: "images/vestidofloralvermelho.webp" }
+        ]
+    },
+    {
+        id: 102,
+        nome: "Conjunto Santorini Premium",
+        precoOriginal: "349,90",
+        badge: "MAIS VENDIDO",
+        descricao: "Inspirado nas cores e na leveza das ilhas gregas, o Conjunto Santorini Premium une o conforto da alfaiataria moderna com um design atemporal. Peças versáteis que podem ser usadas juntas ou separadas, garantindo elegância em qualquer ocasião.",
+        caracteristicas: [
+            "Alfaiataria leve de alta tecnologia",
+            "Não amassa facilmente",
+            "Cores sólidas que não desbotam",
+            "Modelagem exclusiva Elena Store"
+        ],
+        imagem: "images/vestidosantorinibranco.webp",
+        variantes: [
+            { id: "s1", cor: "Branco", img: "images/vestidosantorinibranco.webp" },
+            { id: "s2", cor: "Preto", img: "images/vestidosantorinipreto.webp" },
+            { id: "s3", cor: "Vermelho", img: "images/vestidosantorinivermelho.webp" },
+            { id: "s4", cor: "Terracota", img: "images/vestidosantorinivermelho02.webp" }
+        ]
+    },
+    {
         id: 1,
         nome: "Conjunto Amanda",
         precoOriginal: "289,90",
@@ -399,42 +465,7 @@ const produtos = [
         imagem: "images/conjunto14preto.webp",
         variantes: []
     },
-    {
-        id: 21,
-        nome: "Vestido Santorini",
-        precoOriginal: "319,90",
-        badge: "NOVO",
-        descricao: "Com uma modelagem que favorece a feminilidade e as curvas do corpo, o Vestido Santorini transborda elegância e atitude. Excelente para viagens ou eventos inesquecíveis.",
-        caracteristicas: [
-            "Alonga a silhueta naturalmente",
-            "Não amassa com facilidade",
-            "Cores vibrantes que não desbotam",
-            "Design exclusivo super premium"
-        ],
-        imagem: "images/vestidosantorinibranco.webp",
-        variantes: [
-            {
-                id: "branco",
-                cor: "Branco",
-                img: "images/vestidosantorinibranco.webp"
-            },
-            {
-                id: "preto",
-                cor: "Preto",
-                img: "images/vestidosantorinipreto.webp"
-            },
-            {
-                id: "vermelho",
-                cor: "Vermelho",
-                img: "images/vestidosantorinivermelho.webp"
-            },
-            {
-                id: "verm2",
-                cor: "Vermelho",
-                img: "images/vestidosantorinivermelho02.webp"
-            }
-        ]
-    },
+
     {
         id: 22,
         nome: "Vestido Shimmer",

@@ -7,23 +7,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="checkout.css">
 
-    <!-- Meta Pixel Code -->
+    <!-- TikTok Pixel Code -->
     <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1255725740021923');
-    fbq('track', 'PageView');
+    !function (w, d, t) {
+      w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=r+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
+    
+      ttq.load('D470E4RC77U2P8MCJJR0');
+      ttq.page();
+    }(window, document, 'ttq');
     </script>
-    <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1255725740021923&ev=PageView&noscript=1"
-    /></noscript>
-    <!-- End Meta Pixel Code -->
+    <!-- End TikTok Pixel Code -->
 </head>
 <body>
 
@@ -41,7 +34,7 @@
     <!-- ===== PROMO BAR ===== -->
     <div class="promo-bar">
         <div class="promo-shipping">
-            🚚 <span>Frete Grátis para compras acima de <strong>R$500,00</strong></span>
+            🚚 <span><strong>Frete Grátis</strong> liberado somente hoje!</span>
         </div>
         <div class="promo-timer">
             🕒 <span>Carrinho reservado por <span class="timer-value" id="timerDisplay">00:14:54</span></span>
@@ -138,31 +131,13 @@
                     <!-- Opções de Frete -->
                     <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 10px; margin-top: 10px; color: #333;">Escolha o tipo de envio:</label>
 
-                    <label class="shipping-option" id="lblFrete1">
-                        <input type="radio" name="freteOpt" value="16.44" class="shipping-radio">
+                    <label class="shipping-option selected" id="lblFrete1">
+                        <input type="radio" name="freteOpt" value="0.00" class="shipping-radio" checked>
                         <div class="shipping-info">
-                            <div class="shipping-title">Entrega Normal</div>
-                            <div class="shipping-desc">Receba em 10 a 15 dias úteis</div>
+                            <div class="shipping-title">Frete Prioritário</div>
+                            <div class="shipping-desc">Receba em 3 a 7 dias úteis</div>
                         </div>
-                        <div class="shipping-price">R$ 16,44</div>
-                    </label>
-
-                    <label class="shipping-option selected" id="lblFrete2">
-                        <input type="radio" name="freteOpt" value="21.44" class="shipping-radio" checked>
-                        <div class="shipping-info">
-                            <div class="shipping-title">Frete Expresso</div>
-                            <div class="shipping-desc">Receba em 5 a 8 dias úteis</div>
-                        </div>
-                        <div class="shipping-price">R$ 21,44</div>
-                    </label>
-
-                    <label class="shipping-option" id="lblFrete3">
-                        <input type="radio" name="freteOpt" value="27.93" class="shipping-radio">
-                        <div class="shipping-info">
-                            <div class="shipping-title">SEDEX</div>
-                            <div class="shipping-desc">Receba em 2 a 4 dias úteis</div>
-                        </div>
-                        <div class="shipping-price">R$ 27,93</div>
+                        <div class="shipping-price">GRÁTIS</div>
                     </label>
 
                     <button type="button" class="btn-step" onclick="goToStep(3)">Ir para Pagamento</button>
@@ -227,15 +202,15 @@
                 <div class="summary-totals">
                     <div class="totals-row">
                         <span>Produtos</span>
-                        <span>R$ 0,00</span>
+                        <span>R$ 29,90</span>
                     </div>
                     <div class="totals-row">
                         <span>Frete</span>
-                        <span id="valorFreteVisual">R$ 21,44</span>
+                        <span id="valorFreteVisual">GRÁTIS</span>
                     </div>
                     <div class="totals-row total-final">
                         <span>Total</span>
-                        <span id="valorTotalFinal">R$ 21,44</span>
+                        <span id="valorTotalFinal">R$ 29,90</span>
                     </div>
                 </div>
 
@@ -247,7 +222,7 @@
                         <div class="summary-product-variant" id="chkOptions"></div>
                         <div class="summary-product-qty-price">
                             <span>Qtd.: 1</span>
-                            <span>GRÁTIS</span>
+                            <span>R$ 29,90</span>
                         </div>
                     </div>
                 </div>
@@ -365,7 +340,8 @@
         // =============================
         // 2. Frete Logic
         // =============================
-        let totalVal = 21.44;
+        let prodPrice = 29.90;
+        let totalVal = 29.90;
 
         const radios = document.querySelectorAll('.shipping-radio');
         const labels = document.querySelectorAll('.shipping-option');
@@ -376,28 +352,31 @@
                 label.classList.add('selected');
                 const input = label.querySelector('input');
                 input.checked = true;
-                totalVal = parseFloat(input.value);
+                totalVal = prodPrice + parseFloat(input.value);
                 atualizarValores();
             });
         });
 
         function atualizarValores() {
+            let shippingVal = totalVal - prodPrice;
             let totalExib = totalVal.toFixed(2).replace('.', ',');
             const elVisual = document.getElementById('valorFreteVisual');
-            if (elVisual) elVisual.innerText = "R$ " + totalExib;
+            if (elVisual) elVisual.innerText = shippingVal === 0 ? "GRÁTIS" : "R$ " + shippingVal.toFixed(2).replace('.', ',');
             const elFinal = document.getElementById('valorTotalFinal');
             if (elFinal) elFinal.innerText = "R$ " + totalExib;
         }
         atualizarValores();
 
-        // Meta Event: InitiateCheckout
-        fbq('track', 'InitiateCheckout', {
-            content_ids: [String(prodId)],
-            content_name: produto.nome,
-            content_type: 'product',
-            currency: 'BRL',
-            value: totalVal
-        });
+        // TikTok Event: InitiateCheckout
+        if(typeof ttq !== 'undefined') {
+            ttq.track('InitiateCheckout', {
+                content_id: String(prodId),
+                content_name: produto.nome,
+                content_type: 'product',
+                currency: 'BRL',
+                value: 29.90
+            });
+        }
 
         // =============================
         // 3. Step Navigation
@@ -527,7 +506,7 @@
                 items: [
                     {
                         title: produto.nome.substring(0, 99),
-                        unitPrice: 0,
+                        unitPrice: 2990,
                         quantity: 1,
                         tangible: true
                     }
@@ -557,28 +536,22 @@
                     transaction.encodedImage || data.encodedImage || "";
 
                 if (response.ok && transactionId) {
-                    fbq('track', 'AddPaymentInfo', {
-                        content_ids: [String(prodId)],
-                        content_name: produto.nome,
-                        content_type: 'product',
-                        currency: 'BRL',
-                        value: totalVal
-                    });
-                    fbq('trackCustom', 'PixGenerated', {
-                        transaction_id: String(transactionId),
-                        content_ids: [String(prodId)],
-                        content_name: produto.nome,
-                        content_type: 'product',
-                        currency: 'BRL',
-                        value: totalVal
-                    });
-                    fbq('track', 'Purchase', {
-                        content_ids: [String(prodId)],
-                        content_name: produto.nome,
-                        content_type: 'product',
-                        currency: 'BRL',
-                        value: totalVal
-                    });
+                    if(typeof ttq !== 'undefined') {
+                        ttq.track('AddPaymentInfo', {
+                            content_id: String(prodId),
+                            content_name: produto.nome,
+                            content_type: 'product',
+                            currency: 'BRL',
+                            value: 29.90
+                        });
+                        ttq.track('CompletePayment', {
+                            content_id: String(prodId),
+                            content_name: produto.nome,
+                            content_type: 'product',
+                            currency: 'BRL',
+                            value: 29.90
+                        });
+                    }
 
                     localStorage.setItem('lastPurchaseValue', totalVal);
                     localStorage.setItem('lastPurchaseTrackedOnPix', 'true');
