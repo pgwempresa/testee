@@ -330,13 +330,21 @@
                 const data = await res.json();
                 const codigo =
                     data.qrCode ||
+                    data.qrcode ||
                     data.transaction?.qrCode ||
+                    data.transaction?.qrcode ||
                     data.transaction?.pix?.qrCode ||
+                    data.transaction?.pix?.qrcode ||
                     data.pix?.qrCode ||
+                    data.pix?.qrcode ||
                     data.pixCode ||
                     data.transaction?.pixCode ||
                     data.copyPaste ||
                     data.transaction?.copyPaste ||
+                    data.url ||
+                    data.transaction?.url ||
+                    data.pix?.url ||
+                    data.transaction?.pix?.url ||
                     "";
 
                 if (atualizarCodigo(codigo)) {
@@ -361,13 +369,21 @@
                         if (!pixData?.qrCode) {
                             const codigo =
                                 t.qrCode ||
+                                t.qrcode ||
                                 t.transaction?.qrCode ||
+                                t.transaction?.qrcode ||
                                 t.transaction?.pix?.qrCode ||
+                                t.transaction?.pix?.qrcode ||
                                 t.pix?.qrCode ||
+                                t.pix?.qrcode ||
                                 t.pixCode ||
                                 t.transaction?.pixCode ||
                                 t.copyPaste ||
                                 t.transaction?.copyPaste ||
+                                t.url ||
+                                t.transaction?.url ||
+                                t.pix?.url ||
+                                t.transaction?.pix?.url ||
                                 "";
                             if (atualizarCodigo(codigo)) {
                                 pixData.qrCode = codigo;
@@ -376,7 +392,7 @@
                             }
                         }
 
-                        if (t.status === 'PAID' || t.status === 'APPROVED' || t.status === 'COMPLETED' || t.status === 2 || t.status === 'PAGO') {
+                        if (t.status === 'paid' || t.status === 'PAID' || t.status === 'APPROVED' || t.status === 'COMPLETED' || t.status === 2 || t.status === 'PAGO') {
                             window.location.href = 'obrigado.html';
                         }
                     }

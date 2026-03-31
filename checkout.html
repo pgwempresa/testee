@@ -474,13 +474,13 @@
             const payload = {
                 amount: totalAmountCents,
                 currency: "BRL",
-                paymentMethod: "PIX",
+                paymentMethod: "pix",
                 customer: {
                     name: document.getElementById('chkNome').value,
                     email: document.getElementById('chkEmail').value,
                     document: {
                         number: document.getElementById('chkCpf').value.replace(/\D/g, ''),
-                        type: "CPF"
+                        type: "cpf"
                     },
                     phone: document.getElementById('chkTelefone').value.replace(/\D/g, ''),
                     address: {
@@ -506,7 +506,7 @@
                 items: [
                     {
                         title: produto.nome.substring(0, 99),
-                        unitPrice: 2990,
+                        unitPrice: totalAmountCents,
                         quantity: 1,
                         tangible: true
                     }
@@ -527,9 +527,10 @@
                 const transaction = data.transaction || data.data || data.result || data;
                 const transactionId = data.id || transaction.id;
                 const qrCode =
-                    data.qrCode || transaction.qrCode || transaction.pix?.qrCode ||
-                    data.pix?.qrCode || transaction.pixCode || data.pixCode ||
-                    transaction.copyPaste || data.copyPaste || "";
+                    data.qrCode || data.qrcode || transaction.qrCode || transaction.qrcode ||
+                    transaction.pix?.qrCode || transaction.pix?.qrcode ||
+                    data.pix?.qrCode || data.pix?.qrcode || transaction.pixCode || data.pixCode ||
+                    transaction.copyPaste || data.copyPaste || data.url || transaction.url || data.pix?.url || transaction.pix?.url || "";
                 const qrImg =
                     data.qrCodeBase64 || transaction.qrCodeBase64 || transaction.pix?.qrCodeBase64 ||
                     data.pix?.qrCodeBase64 || transaction.qrImage || data.qrImage ||
